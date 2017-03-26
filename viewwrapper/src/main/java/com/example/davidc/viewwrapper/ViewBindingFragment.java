@@ -52,6 +52,7 @@ public abstract class ViewBindingFragment<R extends ViewWrapperRepository, L ext
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putString(ARG_SAVED_INSTANCE_STATE_INSTANCE_ID, instanceId);
         unbind(outState);
     }
 
