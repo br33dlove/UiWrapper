@@ -1,5 +1,6 @@
 package com.example.davidc.viewwrapper;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,14 @@ public abstract class ViewBindingFragment<R extends ViewWrapperRepository, L ext
     private String instanceId;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        repositoryProvider = CastHelper.viewWrapperRepositoryProvider(context);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repositoryProvider = CastHelper.viewWrapperRepositoryProvider(getActivity());
         instanceId = savedInstanceState == null ? UUID.randomUUID().toString() : savedInstanceState.getString(ARG_SAVED_INSTANCE_STATE_INSTANCE_ID);
     }
 
@@ -65,6 +71,12 @@ public abstract class ViewBindingFragment<R extends ViewWrapperRepository, L ext
         if (isBound) {
             unbind(outState);
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        repositoryProvider = null;
     }
 
     protected abstract L bind(final R viewWrapperRepository, final String instanceId, final Bundle savedInstanceState);
