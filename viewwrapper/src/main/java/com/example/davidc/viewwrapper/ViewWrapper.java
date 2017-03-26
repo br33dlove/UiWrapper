@@ -1,6 +1,7 @@
 package com.example.davidc.viewwrapper;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 
 public abstract class ViewWrapper<ViewType extends View, EventsListenerType extends View.EventsListener> {
@@ -16,7 +17,10 @@ public abstract class ViewWrapper<ViewType extends View, EventsListenerType exte
         return eventsListener();
     }
 
-    protected abstract void registerResources();
+    @CallSuper
+    protected void registerResources() {
+        resourcesRegistered = true;
+    }
 
     protected abstract void showCurrentViewState(final ViewType view);
 
@@ -28,7 +32,10 @@ public abstract class ViewWrapper<ViewType extends View, EventsListenerType exte
 
     protected abstract void saveState(final Bundle outState);
 
-    protected abstract void unregisterResources();
+    @CallSuper
+    protected void unregisterResources() {
+        resourcesRegistered = false;
+    }
 
     @Nullable
     protected ViewType view() {
