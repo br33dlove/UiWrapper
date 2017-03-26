@@ -30,7 +30,7 @@ public class BaseViewWrapperRepository {
         if (viewWrapper != null) {
             viewWrapper.unbind();
             if (!isConfigurationChange) {
-                viewWrapper.releaseResources();
+                viewWrapper.unregisterResources();
                 if (outState != null) {
                     viewWrapper.saveState(outState);
                 } else {
