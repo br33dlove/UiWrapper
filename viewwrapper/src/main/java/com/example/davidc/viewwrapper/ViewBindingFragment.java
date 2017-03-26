@@ -71,6 +71,10 @@ public abstract class ViewBindingFragment<R extends ViewWrapperRepository, L ext
 
     protected abstract void unbind(final R viewWrapperRepository, final String instanceId, final Bundle outState, final boolean isConfigurationChange);
 
+    protected boolean hasEventsListener() {
+        return eventsListener != null;
+    }
+
     protected L eventsListener() {
         return eventsListener;
     }
