@@ -1,4 +1,4 @@
 package com.example.davidc.viewwrapper;
 
-public interface ViewWrapperRepository {
+public interface UiWrapperRepository {
 }

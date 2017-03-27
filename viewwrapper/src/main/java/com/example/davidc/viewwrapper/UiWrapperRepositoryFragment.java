@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-public class ViewWrapperRepositoryFragment<R extends ViewWrapperRepository> extends Fragment implements ViewWrapperRepositoryProvider {
-    private R viewWrapperRepository;
+public class UiWrapperRepositoryFragment<R extends UiWrapperRepository> extends Fragment implements UiWrapperRepositoryProvider {
+    private R repository;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -15,11 +15,11 @@ public class ViewWrapperRepositoryFragment<R extends ViewWrapperRepository> exte
     }
 
     private void initRepository() {
-        viewWrapperRepository = CastHelper.viewWrapperRepositoryFromFactory(getActivity());
+        repository = CastHelper.repositoryFromFactory(getActivity());
     }
 
     @Override
     public R get() {
-        return viewWrapperRepository;
+        return repository;
     }
 }

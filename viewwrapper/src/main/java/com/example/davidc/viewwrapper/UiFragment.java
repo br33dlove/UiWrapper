@@ -4,12 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import java.util.UUID;
 
-public abstract class ViewBindingFragment<R extends ViewWrapperRepository, L extends View.EventsListener> extends Fragment {
+public abstract class UiFragment<R extends UiWrapperRepository, L extends Ui.EventsListener> extends Fragment {
     private final static String ARG_SAVED_INSTANCE_STATE_INSTANCE_ID = "instance id";
-    private ViewWrapperRepositoryProvider<R> repositoryProvider;
+    private UiWrapperRepositoryProvider<R> repositoryProvider;
     private boolean isBound = false;
     private L eventsListener;
     private String instanceId;
@@ -17,7 +18,7 @@ public abstract class ViewBindingFragment<R extends ViewWrapperRepository, L ext
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        repositoryProvider = CastHelper.viewWrapperRepositoryProvider(context);
+        repositoryProvider = CastHelper.repositoryProvider(context);
     }
 
     @Override
@@ -27,7 +28,7 @@ public abstract class ViewBindingFragment<R extends ViewWrapperRepository, L ext
     }
 
     @Override
-    public void onViewCreated(android.view.View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bind(savedInstanceState);
     }
@@ -80,9 +81,9 @@ public abstract class ViewBindingFragment<R extends ViewWrapperRepository, L ext
         repositoryProvider = null;
     }
 
-    protected abstract L bind(final R viewWrapperRepository, final String instanceId, final Bundle savedInstanceState);
+    protected abstract L bind(final R uiWrapperRepository, final String instanceId, final Bundle savedInstanceState);
 
-    protected abstract void unbind(final R viewWrapperRepository, final String instanceId, final Bundle outState, final boolean isConfigurationChange);
+    protected abstract void unbind(final R uiWrapperRepository, final String instanceId, final Bundle outState, final boolean isConfigurationChange);
 
     protected boolean hasEventsListener() {
         return eventsListener != null;

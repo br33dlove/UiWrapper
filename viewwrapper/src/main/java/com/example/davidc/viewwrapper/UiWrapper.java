@@ -4,16 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 
-public abstract class ViewWrapper<ViewType extends View, EventsListenerType extends View.EventsListener> {
+public abstract class UiWrapper<U extends Ui, L extends Ui.EventsListener> {
     private boolean resourcesRegistered = false;
-    private ViewType view;
+    private U ui;
 
-    EventsListenerType bind(final ViewType view) {
+    L bind(final U ui) {
         if (!resourcesRegistered) {
             registerResources();
         }
-        this.view = view;
-        showCurrentViewState(view);
+        this.ui = ui;
+        showCurrentUiState(ui);
         return eventsListener();
     }
 
@@ -22,12 +22,12 @@ public abstract class ViewWrapper<ViewType extends View, EventsListenerType exte
         resourcesRegistered = true;
     }
 
-    protected abstract void showCurrentViewState(final ViewType view);
+    protected abstract void showCurrentUiState(final U ui);
 
-    protected abstract EventsListenerType eventsListener();
+    protected abstract L eventsListener();
 
     void unbind() {
-        view = null;
+        ui = null;
     }
 
     protected abstract void saveState(final Bundle outState);
@@ -38,7 +38,7 @@ public abstract class ViewWrapper<ViewType extends View, EventsListenerType exte
     }
 
     @Nullable
-    protected ViewType view() {
-        return view;
+    protected U ui() {
+        return ui;
     }
 }

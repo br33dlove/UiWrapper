@@ -1,6 +1,6 @@
 package com.example.davidc.viewwrapper;
 
-public interface View {
+public interface Ui {
 
     interface EventsListener {
 
