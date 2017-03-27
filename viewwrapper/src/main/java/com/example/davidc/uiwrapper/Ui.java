@@ -1,4 +1,4 @@
-package com.example.davidc.viewwrapper;
+package com.example.davidc.uiwrapper;
 
 public interface Ui {
 

@@ -1,4 +1,4 @@
-package com.example.davidc.viewwrapper;
+package com.example.davidc.uiwrapper;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

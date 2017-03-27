@@ -1,4 +1,4 @@
-package com.example.davidc.viewwrapper;
+package com.example.davidc.uiwrapper;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

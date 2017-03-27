@@ -1,4 +1,4 @@
-package com.example.davidc.viewwrapper;
+package com.example.davidc.uiwrapper;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
