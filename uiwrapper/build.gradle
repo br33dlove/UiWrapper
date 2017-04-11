@@ -1,4 +1,29 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+    packaging = 'aar'
+    groupId = 'com.davidcryer.uiwrapper'
+    artifactId = 'uiwrapper'
+    libraryName = 'UiWrapper'
+    libraryDescription = 'Library to provide wrapping of Android Fragments to smooth out lifecycles and provide view framework for MVP architectures'
+    websiteUrl = 'https://github.com/davidcryer/UiWrapper'
+    vcsUrl = 'https://github.com/davidcryer/UiWrapper.git'
+    licenseArray = ['Apache-2.0']
+    licenseName = 'Apache License, version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0'
+    developerId = 'davidcryer'
+    developerName = 'David Cryer'
+    developerEmail = 'davecryer.dc@gmail.com'
+    mavenRepoName = 'maven'
+    versionCode = 1
+    versionTag = '0.1.0'
+    versionDescription = 'Version 0.1.0'
+    publish = true
+    publicDownloadNumbers = true
+    released = new Date()
+}
 
 android {
     compileSdkVersion 25
@@ -6,8 +31,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode versionCode
+        versionName versionTag
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,9 +45,100 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     compile 'com.android.support:appcompat-v7:25.3.0'
-    testCompile 'junit:junit:4.12'
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging packaging
+                groupId groupId
+                artifactId artifactId
+                name libraryName
+                description libraryDescription
+                url websiteUrl
+                licenses {
+                    license {
+                        name licenseName
+                        url licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+                scm {
+                    connection vcsUrl
+                    developerConnection vcsUrl
+                    url websiteUrl
+                }
+            }
+        }
+    }
+}
+
+if (project.hasProperty("android")) {
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+} else {
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+version = versionTag
+group = groupId
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = mavenRepoName
+        name = artifactId
+        desc = libraryDescription
+        websiteUrl = websiteUrl
+        vcsUrl = vcsUrl
+        licenses = licenseArray
+        publish = publish
+        publicDownloadNumbers = publicDownloadNumbers
+        version {
+            name = versionTag
+            desc = versionDescription
+            released = released
+            vcsTag = versionTag
+            desc = description
+        }
+    }
 }
