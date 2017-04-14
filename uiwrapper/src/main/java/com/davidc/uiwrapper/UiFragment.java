@@ -8,7 +8,7 @@ import android.view.View;
 
 import java.util.UUID;
 
-public abstract class UiFragment<R extends UiWrapperRepository, L extends Ui.EventsListener> extends Fragment {
+public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui.Listener> extends Fragment {
     private final static String ARG_SAVED_INSTANCE_STATE_INSTANCE_ID = "instance id";
     private UiWrapperRepositoryProvider<R> repositoryProvider;
     private boolean isBound = false;

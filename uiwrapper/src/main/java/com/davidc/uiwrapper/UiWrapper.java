@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 
-public abstract class UiWrapper<U extends Ui, L extends Ui.EventsListener> {
+public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
     private boolean resourcesRegistered = false;
     private U ui;
 

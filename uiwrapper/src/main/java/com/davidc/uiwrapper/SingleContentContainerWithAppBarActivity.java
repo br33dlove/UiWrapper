@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
-public abstract class SingleContentContainerWithAppBarActivity<Repo extends UiWrapperRepository> extends UiWrapperRepositoryActivity<Repo> {
+public abstract class SingleContentContainerWithAppBarActivity<Repo extends BaseUiWrapperRepository> extends UiWrapperRepositoryActivity<Repo> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

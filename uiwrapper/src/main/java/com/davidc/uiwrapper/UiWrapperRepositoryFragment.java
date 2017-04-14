@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-public class UiWrapperRepositoryFragment<R extends UiWrapperRepository> extends Fragment implements UiWrapperRepositoryProvider {
+public class UiWrapperRepositoryFragment<R extends BaseUiWrapperRepository> extends Fragment implements UiWrapperRepositoryProvider {
     private R repository;
 
     @Override

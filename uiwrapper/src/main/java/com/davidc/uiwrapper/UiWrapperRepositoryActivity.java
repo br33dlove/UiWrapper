@@ -3,7 +3,7 @@ package com.davidc.uiwrapper;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class UiWrapperRepositoryActivity<R extends UiWrapperRepository> extends AppCompatActivity implements UiWrapperRepositoryProvider {
+public class UiWrapperRepositoryActivity<R extends BaseUiWrapperRepository> extends AppCompatActivity implements UiWrapperRepositoryProvider {
     private final static String UI_WRAPPER_FRAGMENT_TAG = "ui wrapper repository";
 
     @Override

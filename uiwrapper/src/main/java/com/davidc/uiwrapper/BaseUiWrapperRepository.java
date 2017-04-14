@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class BaseUiWrapperRepository {
 
-    protected static <U extends Ui, L extends Ui.EventsListener> L bind(
+    protected static <U extends Ui, L extends Ui.Listener> L bind(
             final U ui,
             final String instanceId,
             final Map<String, UiWrapper<U, L>> uiWrapperMap,
@@ -20,7 +20,7 @@ public class BaseUiWrapperRepository {
         return uiWrapper.bind(ui);
     }
 
-    protected static <U extends Ui, L extends Ui.EventsListener> void unbind(
+    protected static <U extends Ui, L extends Ui.Listener> void unbind(
             final String instanceId,
             final Map<String, UiWrapper<U, L>> uiWrapperMap,
             final Bundle outState,
@@ -42,7 +42,7 @@ public class BaseUiWrapperRepository {
         }
     }
 
-    protected interface UiWrapperProvider<V extends Ui, L extends Ui.EventsListener> {
+    protected interface UiWrapperProvider<V extends Ui, L extends Ui.Listener> {
         UiWrapper<V, L> uiWrapper();
     }
 }
