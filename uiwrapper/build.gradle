@@ -3,13 +3,13 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 ext {
-    packaging = 'aar'
-    groupId = 'com.davidcryer.uiwrapper'
-    artifactId = 'uiwrapper'
+    packagingFormat = 'aar'
+    groupPath = 'com.davidcryer.uiwrapper'
+    artifactName = 'uiwrapper'
     libraryName = 'UiWrapper'
     libraryDescription = 'Library to provide wrapping of Android Fragments to smooth out lifecycles and provide view framework for MVP architectures'
-    websiteUrl = 'https://github.com/davidcryer/UiWrapper'
-    vcsUrl = 'https://github.com/davidcryer/UiWrapper.git'
+    gitWebsiteUrl = 'https://github.com/davidcryer/UiWrapper'
+    gitUrl = 'https://github.com/davidcryer/UiWrapper.git'
     licenseArray = ['Apache-2.0']
     licenseName = 'Apache License, version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0'
@@ -17,12 +17,9 @@ ext {
     developerName = 'David Cryer'
     developerEmail = 'davecryer.dc@gmail.com'
     mavenRepoName = 'maven'
-    versionCode = 1
+    libraryVersionCode = 1
     versionTag = '0.1.0'
     versionDescription = 'Version 0.1.0'
-    publish = true
-    publicDownloadNumbers = true
-    released = new Date()
 }
 
 android {
@@ -31,7 +28,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode versionCode
+        versionCode libraryVersionCode
         versionName versionTag
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -57,12 +54,12 @@ install {
     repositories.mavenInstaller {
         pom {
             project {
-                packaging packaging
-                groupId groupId
-                artifactId artifactId
+                packaging packagingFormat
+                groupId groupPath
+                artifactId artifactName
                 name libraryName
                 description libraryDescription
-                url websiteUrl
+                url gitWebsiteUrl
                 licenses {
                     license {
                         name licenseName
@@ -77,9 +74,9 @@ install {
                     }
                 }
                 scm {
-                    connection vcsUrl
-                    developerConnection vcsUrl
-                    url websiteUrl
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url gitWebsiteUrl
                 }
             }
         }
@@ -114,7 +111,7 @@ artifacts {
 }
 
 version = versionTag
-group = groupId
+group = groupPath
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -126,17 +123,17 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = mavenRepoName
-        name = artifactId
+        name = artifactName
         desc = libraryDescription
-        websiteUrl = websiteUrl
-        vcsUrl = vcsUrl
+        websiteUrl = gitWebsiteUrl
+        vcsUrl = gitUrl
         licenses = licenseArray
-        publish = publish
-        publicDownloadNumbers = publicDownloadNumbers
+        publish = true
+        publicDownloadNumbers = true
         version {
             name = versionTag
             desc = versionDescription
-            released = released
+            released = new Date()
             vcsTag = versionTag
             desc = description
         }
