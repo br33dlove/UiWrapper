@@ -1,5 +1,5 @@
 package com.davidc.uiwrapper;
 
-interface UiWrapperRepositoryProvider<R extends BaseUiWrapperRepository> {
+public interface UiWrapperRepositoryProvider<R extends BaseUiWrapperRepository> {
     R get();
 }
