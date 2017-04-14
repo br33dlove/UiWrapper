@@ -45,11 +45,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.0'
 }
 
-
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-}
-
 install {
     repositories.mavenInstaller {
         pom {
