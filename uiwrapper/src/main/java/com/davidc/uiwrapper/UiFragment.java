@@ -1,4 +1,4 @@
-package com.example.davidc.uiwrapper;
+package com.davidc.uiwrapper;
 
 import android.content.Context;
 import android.os.Bundle;
