@@ -37,17 +37,7 @@ class FragmentManagerHelper {
         return fm.findFragmentByTag(tag);
     }
 
-    static boolean hasMoreThanOneNonRetainedFragment(final FragmentManager fragmentManager) {
-        return nonRetainedFragmentCount(fragmentManager) > 1;
-    }
-
-    private static int nonRetainedFragmentCount(final FragmentManager fragmentManager) {
-        int nonRetainedFragmentCount = 0;
-        for (final Fragment fragment : fragmentManager.getFragments()) {
-            if (fragment != null && !fragment.getRetainInstance()) {
-                nonRetainedFragmentCount++;
-            }
-        }
-        return nonRetainedFragmentCount;
+    static boolean hasMoreThanFragmentOnBackStack(final FragmentManager fragmentManager) {
+        return fragmentManager.getBackStackEntryCount() > 1;
     }
 }

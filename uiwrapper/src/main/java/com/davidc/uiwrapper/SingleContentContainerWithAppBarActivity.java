@@ -50,7 +50,7 @@ public abstract class SingleContentContainerWithAppBarActivity<Repo extends Base
     @Override
     public void onBackPressed() {
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        if (FragmentManagerHelper.hasMoreThanOneNonRetainedFragment(fragmentManager)) {
+        if (FragmentManagerHelper.hasMoreThanFragmentOnBackStack(fragmentManager)) {
             super.onBackPressed();
             return;
         }
