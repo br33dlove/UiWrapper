@@ -8,7 +8,7 @@ public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
     private boolean resourcesRegistered = false;
     private U ui;
 
-    L bind(final U ui) {
+    final L bind(final U ui) {
         if (!resourcesRegistered) {
             registerResources();
         }
@@ -26,7 +26,7 @@ public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
 
     protected abstract L eventsListener();
 
-    void unbind() {
+    final void unbind() {
         ui = null;
     }
 
@@ -38,7 +38,7 @@ public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
     }
 
     @Nullable
-    protected U ui() {
+    protected final U ui() {
         return ui;
     }
 }

@@ -12,7 +12,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     private final static String ARG_SAVED_INSTANCE_STATE_INSTANCE_ID = "instance id";
     private UiWrapperRepositoryProvider<R> repositoryProvider;
     private boolean isBound = false;
-    private L eventsListener;
+    private L listener;
     private String instanceId;
 
     @Override
@@ -34,7 +34,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     private void bind(final Bundle savedInstanceState) {
-        eventsListener = bind(repositoryProvider.get(), instanceId, savedInstanceState);
+        listener = bind(repositoryProvider.get(), instanceId, savedInstanceState);
         isBound = true;
     }
 
@@ -59,7 +59,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
 
     private void unbind(final Bundle outState) {
         unbind(repositoryProvider.get(), instanceId, outState, getActivity().isChangingConfigurations());
-        eventsListener = null;
+        listener = null;
         isBound = false;
     }
 
@@ -85,11 +85,11 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
 
     protected abstract void unbind(final R uiWrapperRepository, final String instanceId, final Bundle outState, final boolean isConfigurationChange);
 
-    protected boolean hasEventsListener() {
-        return eventsListener != null;
+    protected final boolean hasListener() {
+        return listener != null;
     }
 
-    protected L eventsListener() {
-        return eventsListener;
+    protected final L listener() {
+        return listener;
     }
 }
