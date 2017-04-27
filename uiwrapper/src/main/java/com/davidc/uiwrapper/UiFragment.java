@@ -2,6 +2,7 @@ package com.davidc.uiwrapper;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -16,18 +17,21 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     private String instanceId;
 
     @Override
+    @CallSuper
     public void onAttach(Context context) {
         super.onAttach(context);
         repositoryProvider = CastHelper.repositoryProvider(context);
     }
 
     @Override
+    @CallSuper
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instanceId = savedInstanceState == null ? UUID.randomUUID().toString() : savedInstanceState.getString(ARG_SAVED_INSTANCE_STATE_INSTANCE_ID);
     }
 
     @Override
+    @CallSuper
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bind(savedInstanceState);
@@ -39,6 +43,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     @Override
+    @CallSuper
     public void onStart() {
         super.onStart();
         bindIfUnbound(null);
@@ -51,6 +56,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     @Override
+    @CallSuper
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(ARG_SAVED_INSTANCE_STATE_INSTANCE_ID, instanceId);
@@ -64,6 +70,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     @Override
+    @CallSuper
     public void onStop() {
         super.onStop();
         unbindIfBound(null);
@@ -76,6 +83,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     @Override
+    @CallSuper
     public void onDetach() {
         super.onDetach();
         repositoryProvider = null;
