@@ -2,6 +2,7 @@ package com.davidc.uiwrapper;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
@@ -22,7 +23,7 @@ public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
         resourcesRegistered = true;
     }
 
-    protected abstract void showCurrentUiState(final U ui);
+    protected abstract void showCurrentUiState(@NonNull final U ui);
 
     protected abstract L uiListener();
 
