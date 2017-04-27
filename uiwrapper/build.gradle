@@ -16,8 +16,8 @@ ext {
     developerEmail = 'davecryer.dc@gmail.com'
     mavenRepoName = 'maven'
     libraryVersionCode = 4
-    versionTag = '1.0.0'
-    versionDescription = 'Version 1.0.0'
+    versionTag = '1.0.1'
+    versionDescription = 'Version 1.0.1'
 }
 
 android {
