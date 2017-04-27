@@ -14,7 +14,7 @@ public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
         }
         this.ui = ui;
         showCurrentUiState(ui);
-        return eventsListener();
+        return uiListener();
     }
 
     @CallSuper
@@ -24,7 +24,7 @@ public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
 
     protected abstract void showCurrentUiState(final U ui);
 
-    protected abstract L eventsListener();
+    protected abstract L uiListener();
 
     final void unbind() {
         ui = null;
