@@ -24,6 +24,7 @@ import android.view.View;
 
 import java.util.UUID;
 
+@SuppressWarnings("unused")
 public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui.Listener> extends Fragment {
     private final static String ARG_SAVED_INSTANCE_STATE_INSTANCE_ID = "instance id";
     private UiWrapperRepositoryProvider<R> repositoryProvider;
@@ -108,10 +109,12 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
 
     protected abstract void unbind(@NonNull final R uiWrapperRepository, @NonNull final String instanceId, @Nullable final Bundle outState, final boolean isConfigurationChange);
 
+    @SuppressWarnings("unused")
     protected final boolean hasListener() {
         return listener != null;
     }
 
+    @SuppressWarnings("unused")
     protected final L listener() {
         return listener;
     }
