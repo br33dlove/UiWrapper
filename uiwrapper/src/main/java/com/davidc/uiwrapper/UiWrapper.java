@@ -56,7 +56,7 @@ public abstract class UiWrapper<U extends Ui, L extends Ui.Listener, M extends U
 
     @SuppressWarnings("unused")
     @Nullable
-    protected M savedUiModel(final Bundle savedState) {
+    protected static <U extends Ui, M extends UiModel<U>> M savedUiModel(final Bundle savedState) {
         return savedState.getParcelable(BUNDLE_ARG_UI_MODEL);
     }
 
