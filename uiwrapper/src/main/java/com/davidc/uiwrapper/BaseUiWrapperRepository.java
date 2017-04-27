@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import java.util.Map;
 
-public class BaseUiWrapperRepository {
+public abstract class BaseUiWrapperRepository {
 
     protected static <U extends Ui, L extends Ui.Listener> L bind(
             @NonNull final U ui,

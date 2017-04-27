@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
-class CastHelper {
+final class CastHelper {
+
+    private CastHelper() {
+
+    }
 
     static <R extends BaseUiWrapperRepository> R repositoryFromFactory(final Activity activity) {
         final Application application = activity.getApplication();

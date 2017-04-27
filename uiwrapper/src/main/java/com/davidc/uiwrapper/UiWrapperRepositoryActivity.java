@@ -5,7 +5,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
-public class UiWrapperRepositoryActivity<R extends BaseUiWrapperRepository> extends AppCompatActivity implements UiWrapperRepositoryProvider {
+public abstract class UiWrapperRepositoryActivity<R extends BaseUiWrapperRepository> extends AppCompatActivity implements UiWrapperRepositoryProvider {
     private final static String UI_WRAPPER_FRAGMENT_TAG = "ui wrapper repository";
 
     @Override

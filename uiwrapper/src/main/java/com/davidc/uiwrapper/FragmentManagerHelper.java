@@ -4,7 +4,11 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-class FragmentManagerHelper {
+final class FragmentManagerHelper {
+
+    private FragmentManagerHelper() {
+
+    }
 
     static boolean noFragmentBoundToView(
         final FragmentManager fragmentManager,
