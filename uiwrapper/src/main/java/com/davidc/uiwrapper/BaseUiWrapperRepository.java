@@ -22,17 +22,17 @@ import java.util.Map;
 
 public abstract class BaseUiWrapperRepository {
 
-    protected static <U extends Ui, L extends Ui.Listener> L bind(
+    protected static <U extends Ui, L extends Ui.Listener, M extends UiModel<U>> L bind(
             @NonNull final U ui,
             @NonNull final String instanceId,
-            @NonNull final Map<String, UiWrapper<U, L>> uiWrapperMap,
-            @NonNull final UiWrapperProvider<U, L> uiWrapperProvider
+            @NonNull final Map<String, UiWrapper<U, L, M>> uiWrapperMap,
+            @NonNull final UiWrapperProvider<U, L, M> uiWrapperProvider
     ) {
         ArgChecker.notNull(ui, "ui");
         ArgChecker.notNull(instanceId, "instanceId");
         ArgChecker.notNull(uiWrapperMap, "uiWrapperMap");
         ArgChecker.notNull(uiWrapperProvider, "uiWrapperProvider");
-        UiWrapper<U, L> uiWrapper = uiWrapperMap.get(instanceId);
+        UiWrapper<U, L, M> uiWrapper = uiWrapperMap.get(instanceId);
         if (uiWrapper == null) {
             uiWrapper = uiWrapperProvider.uiWrapper();
             ArgChecker.notNull(uiWrapper, "uiWrapper");
@@ -41,15 +41,15 @@ public abstract class BaseUiWrapperRepository {
         return uiWrapper.bind(ui);
     }
 
-    protected static <U extends Ui, L extends Ui.Listener> void unbind(
+    protected static <U extends Ui, L extends Ui.Listener, M extends UiModel<U>> void unbind(
             @NonNull final String instanceId,
-            @NonNull final Map<String, UiWrapper<U, L>> uiWrapperMap,
+            @NonNull final Map<String, UiWrapper<U, L, M>> uiWrapperMap,
             @Nullable final Bundle outState,
             final boolean isConfigurationChange
     ) {
         ArgChecker.notNull(instanceId, "instanceId");
         ArgChecker.notNull(uiWrapperMap, "uiWrapperMap");
-        final UiWrapper<U, L> uiWrapper = uiWrapperMap.get(instanceId);
+        final UiWrapper<U, L, M> uiWrapper = uiWrapperMap.get(instanceId);
         if (uiWrapper != null) {
             uiWrapper.unbind();
             if (!isConfigurationChange) {
@@ -65,8 +65,8 @@ public abstract class BaseUiWrapperRepository {
         }
     }
 
-    protected interface UiWrapperProvider<V extends Ui, L extends Ui.Listener> {
+    protected interface UiWrapperProvider<U extends Ui, L extends Ui.Listener, M extends UiModel<U>> {
         @NonNull
-        UiWrapper<V, L> uiWrapper();
+        UiWrapper<U, L, M> uiWrapper();
     }
 }

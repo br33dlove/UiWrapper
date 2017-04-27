@@ -19,16 +19,23 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
+public abstract class UiWrapper<U extends Ui, L extends Ui.Listener, M extends UiModel<U>> {
+    private final static String BUNDLE_ARG_UI_MODEL = "ui model";
+    private final M uiModel;
     private boolean resourcesRegistered = false;
     private U ui;
+
+    protected UiWrapper(@NonNull final M uiModel) {
+        ArgChecker.notNull(uiModel, "uiModel");
+        this.uiModel = uiModel;
+    }
 
     final L bind(final U ui) {
         if (!resourcesRegistered) {
             registerResources();
         }
         this.ui = ui;
-        showCurrentUiState(ui);
+        uiModel.onto(ui);
         return uiListener();
     }
 
@@ -37,23 +44,36 @@ public abstract class UiWrapper<U extends Ui, L extends Ui.Listener> {
         resourcesRegistered = true;
     }
 
-    protected abstract void showCurrentUiState(@NonNull final U ui);
-
     protected abstract L uiListener();
 
     final void unbind() {
         ui = null;
     }
 
-    protected abstract void saveState(final Bundle outState);
+    final void saveState(final Bundle outState) {
+        outState.putParcelable(BUNDLE_ARG_UI_MODEL, uiModel);
+    }
+
+    @SuppressWarnings("unused")
+    @Nullable
+    protected M savedUiModel(final Bundle savedState) {
+        return savedState.getParcelable(BUNDLE_ARG_UI_MODEL);
+    }
 
     @CallSuper
     protected void unregisterResources() {
         resourcesRegistered = false;
     }
 
+    @SuppressWarnings("unused")
     @Nullable
     protected final U ui() {
         return ui;
+    }
+
+    @SuppressWarnings("unused")
+    @NonNull
+    protected final M uiModel() {
+        return uiModel;
     }
 }
