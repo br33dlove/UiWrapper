@@ -1,31 +1,40 @@
 package com.davidc.uiwrapper;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Map;
 
 public class BaseUiWrapperRepository {
 
     protected static <U extends Ui, L extends Ui.Listener> L bind(
-            final U ui,
-            final String instanceId,
-            final Map<String, UiWrapper<U, L>> uiWrapperMap,
-            final UiWrapperProvider<U, L> uiWrapperProvider
+            @NonNull final U ui,
+            @NonNull final String instanceId,
+            @NonNull final Map<String, UiWrapper<U, L>> uiWrapperMap,
+            @NonNull final UiWrapperProvider<U, L> uiWrapperProvider
     ) {
+        ArgChecker.notNull(ui, "ui");
+        ArgChecker.notNull(instanceId, "instanceId");
+        ArgChecker.notNull(uiWrapperMap, "uiWrapperMap");
+        ArgChecker.notNull(uiWrapperProvider, "uiWrapperProvider");
         UiWrapper<U, L> uiWrapper = uiWrapperMap.get(instanceId);
         if (uiWrapper == null) {
             uiWrapper = uiWrapperProvider.uiWrapper();
+            ArgChecker.notNull(uiWrapper, "uiWrapper");
             uiWrapperMap.put(instanceId, uiWrapper);
         }
         return uiWrapper.bind(ui);
     }
 
     protected static <U extends Ui, L extends Ui.Listener> void unbind(
-            final String instanceId,
-            final Map<String, UiWrapper<U, L>> uiWrapperMap,
-            final Bundle outState,
+            @NonNull final String instanceId,
+            @NonNull final Map<String, UiWrapper<U, L>> uiWrapperMap,
+            @Nullable final Bundle outState,
             final boolean isConfigurationChange
     ) {
+        ArgChecker.notNull(instanceId, "instanceId");
+        ArgChecker.notNull(uiWrapperMap, "uiWrapperMap");
         final UiWrapper<U, L> uiWrapper = uiWrapperMap.get(instanceId);
         if (uiWrapper != null) {
             uiWrapper.unbind();
@@ -43,6 +52,7 @@ public class BaseUiWrapperRepository {
     }
 
     protected interface UiWrapperProvider<V extends Ui, L extends Ui.Listener> {
+        @NonNull
         UiWrapper<V, L> uiWrapper();
     }
 }
