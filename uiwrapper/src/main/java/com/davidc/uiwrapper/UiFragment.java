@@ -3,6 +3,7 @@ package com.davidc.uiwrapper;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -89,9 +90,9 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
         repositoryProvider = null;
     }
 
-    protected abstract L bind(final R uiWrapperRepository, final String instanceId, final Bundle savedInstanceState);
+    protected abstract L bind(@NonNull final R uiWrapperRepository, @NonNull final String instanceId, @Nullable final Bundle savedInstanceState);
 
-    protected abstract void unbind(final R uiWrapperRepository, final String instanceId, final Bundle outState, final boolean isConfigurationChange);
+    protected abstract void unbind(@NonNull final R uiWrapperRepository, @NonNull final String instanceId, @Nullable final Bundle outState, final boolean isConfigurationChange);
 
     protected final boolean hasListener() {
         return listener != null;
