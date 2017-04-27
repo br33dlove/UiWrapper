@@ -1,6 +1,7 @@
 package com.davidc.uiwrapper;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
@@ -19,6 +20,7 @@ public class UiWrapperRepositoryFragment<R extends BaseUiWrapperRepository> exte
     }
 
     @Override
+    @NonNull
     public R get() {
         return repository;
     }

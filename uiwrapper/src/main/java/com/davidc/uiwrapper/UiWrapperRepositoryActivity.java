@@ -1,12 +1,15 @@
 package com.davidc.uiwrapper;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 public class UiWrapperRepositoryActivity<R extends BaseUiWrapperRepository> extends AppCompatActivity implements UiWrapperRepositoryProvider {
     private final static String UI_WRAPPER_FRAGMENT_TAG = "ui wrapper repository";
 
     @Override
+    @CallSuper
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (!FragmentManagerHelper.hasFragment(getSupportFragmentManager(), UI_WRAPPER_FRAGMENT_TAG)) {
@@ -23,6 +26,7 @@ public class UiWrapperRepositoryActivity<R extends BaseUiWrapperRepository> exte
     }
 
     @Override
+    @NonNull
     public R get() {
         return uiWrapperRepositoryFragment().get();
     }
