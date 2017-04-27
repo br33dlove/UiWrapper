@@ -1,7 +1,9 @@
 package com.davidc.uiwrapper;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -10,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 public abstract class SingleContentContainerWithAppBarActivity<Repo extends BaseUiWrapperRepository> extends UiWrapperRepositoryActivity<Repo> {
 
     @Override
+    @CallSuper
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_bar_with_content);
@@ -25,7 +28,7 @@ public abstract class SingleContentContainerWithAppBarActivity<Repo extends Base
         }
     }
 
-    protected abstract void setupActionBar(final ActionBar actionBar);
+    protected abstract void setupActionBar(@NonNull final ActionBar actionBar);
 
     private void addInitialFragment() {
         final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -34,6 +37,7 @@ public abstract class SingleContentContainerWithAppBarActivity<Repo extends Base
         }
     }
 
+    @NonNull
     protected abstract Fragment initialFragment();
 
     @IdRes
