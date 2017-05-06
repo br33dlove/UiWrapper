@@ -1,1 +1,1 @@
-include ':uiwrapper'
+include ':uiwrapper', ':sample'

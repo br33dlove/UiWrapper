@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ViewWrapperLibraryExample</string>
+
+    <string name="view.example.button.new_example_view">Start new example view</string>
+</resources>

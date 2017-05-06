@@ -1,14 +1,30 @@
+//Copyright 2017 David Cryer
+//
+//        Licensed under the Apache License, Version 2.0 (the "License");
+//        you may not use this file except in compliance with the License.
+//        You may obtain a copy of the License at
+//
+//        http://www.apache.org/licenses/LICENSE-2.0
+//
+//        Unless required by applicable law or agreed to in writing, software
+//        distributed under the License is distributed on an "AS IS" BASIS,
+//        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//        See the License for the specific language governing permissions and
+//        limitations under the License.
+
 package com.davidc.uiwrapper;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import java.util.UUID;
 
+@SuppressWarnings("unused")
 public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui.Listener> extends Fragment {
     private final static String ARG_SAVED_INSTANCE_STATE_INSTANCE_ID = "instance id";
     private UiWrapperRepositoryProvider<R> repositoryProvider;
@@ -89,14 +105,16 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
         repositoryProvider = null;
     }
 
-    protected abstract L bind(final R uiWrapperRepository, final String instanceId, final Bundle savedInstanceState);
+    protected abstract L bind(@NonNull final R uiWrapperRepository, @NonNull final String instanceId, @Nullable final Bundle savedInstanceState);
 
-    protected abstract void unbind(final R uiWrapperRepository, final String instanceId, final Bundle outState, final boolean isConfigurationChange);
+    protected abstract void unbind(@NonNull final R uiWrapperRepository, @NonNull final String instanceId, @Nullable final Bundle outState, final boolean isConfigurationChange);
 
+    @SuppressWarnings("unused")
     protected final boolean hasListener() {
         return listener != null;
     }
 
+    @SuppressWarnings("unused")
     protected final L listener() {
         return listener;
     }
