@@ -29,19 +29,6 @@ public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, E
         return uiModel == null ? newInstance(resource, uiModelFactory) : new ExampleUiWrapper(resource, uiModel);
     }
 
-    private final Resource.Listener resourceListener = new Resource.Listener() {
-        @Override
-        public void listenerCount(int count) {
-            uiModel().showResourceListenersCount(ui(), count);
-        }
-    };
-
-    @Override
-    protected void registerResources() {
-        super.registerResources();
-        resource.register(resourceListener);
-    }
-
     @Override
     protected ExampleUi.Listener uiListener() {
         return new ExampleUi.Listener() {
@@ -51,6 +38,19 @@ public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, E
             }
         };
     }
+
+    @Override
+    protected void registerResources() {
+        super.registerResources();
+        resource.register(resourceListener);
+    }
+
+    private final Resource.Listener resourceListener = new Resource.Listener() {
+        @Override
+        public void listenerCount(int count) {
+            uiModel().showResourceListenersCount(ui(), count);
+        }
+    };
 
     @Override
     protected void unregisterResources() {
