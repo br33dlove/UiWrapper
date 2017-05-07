@@ -15,3 +15,5 @@ Injected service objects can then start requests in the registerResources() meth
 In the case of MVP, these service-objects would instead be injected into the presenter, and the register and unregister methods would simply be passed on.
 
 //Work through example
+
+A sample application implementing UiWrapper, but not MVP, can be found in the sample/ module of this project.
