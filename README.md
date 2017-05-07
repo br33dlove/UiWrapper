@@ -1,4 +1,15 @@
 # UiWrapper
 Library to provide wrapping of Android Fragments to smooth out lifecycles and provide view framework for MVP architectures on Android platform
 
-Details to come
+The aim of this library is to provide a framework which supports a more modular design of Android applications. It lends a particular structure to an application, where interactions with back-end services are kept away from UI implementations by using UiWrapper-derived classes, and defines set responsibilities to fragments and activities. Fragments must extend the UiFragment abstract class and are responsible for the UI implementation. Activities must extend UiWrapperRepositoryActivity (or it's subclass SingleContentContainerWithAppBarActivity) and are responsible for providing the app bar and view containers in which to attach the fragments, as well as navigation (adding/removing fragments and starting new activities). This way, the UI and business logic is moved away from the Android API. Ideally, the UiWrapper subclasses are used to implement the View interface in an MVP architecture, where the Presenter is created in the UiWrapper's constructor, with the Presenter handling communication with back-end services/the Model component and controlling the high-level UI logic, in order to complete the separation of the Android API from the UI and business logic.
+
+UiWrapper subclasses provide a layer of abstraction above UI-implementations (fragments, activities) and also act to smooth out fragment and activity lifecycles by persisting across configuration changes. Ui objects are bound-to and unbound-from the UiWrapper. Also, as they are created by the developer, dependencies can be injected into the objects via the constuctor. Injected service objects can they be registered-to and unregistered-from in methods called by the UiWrapper superclass when binding and unbinding respectively. This means that your service objects can be injected where necessary and not be globally-accessible singletons.
+
+The UiWrapper class handles binding and unbinding of Ui objects, which have methods for changing the UI of the screen, and provides methods to it's subclasses for registering and unregistering to back-end services, as well as for returning Ui.Listener objects for the UI implementations to use for relaying events. The UiWrapper also provides methods to it's subclasses to get the Ui and UiModel references, although the Ui reference may be null at any given time. When a Ui object is bound, a call to void onto(Ui ui) on the UiModel is made for it to set it's state on the Ui object.
+
+The framework provides a number of abstract classes and interfaces to be used. Some of these have generic implementations, which require 
+
+The framwork provides methods to instigate binding and unbinding of UiFragment-derived fragments to a UiWrapper instance, via methods calls on a UiWrapperRepository instance which is persisted across configuration changes. In the UiWrapperRepository, calls to the base class's bind and unbind methods can be made, along with implementations of UiWrapperProvider to provide a new UiWrapper instance if there are no appropriate UiWrappers to bind to.
+
+
+The creation of these classes are the responsibility of the developer, and so it becomes possible to perform dependency injection through the constructor
