@@ -8,7 +8,7 @@ UiWrapper provides a framework with which to structure the UI your application, 
 
 The UiWrapper library provides the Ui interface in which to draw up contracts for each screen. By extending the Ui interface, the UI can be built as collection of states and events.
 
-<pre>
+```java
 public interface DataListUi extends Ui {
     //States
     void animateLoadingFromFailureToGetData();
@@ -28,12 +28,12 @@ public interface DataListUi extends Ui {
         void onClickRetry(DataListUi ui);
     }
 }
-</pre>
+```
 
 
 Fragments then implement the Ui derivatives and implement the UI around those states and events.
 
-<pre>
+```java
 public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi.Listener> implements DataListUi {
     ...
     //Fragment setup
@@ -101,22 +101,23 @@ public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi
     
     ...
 }
-</pre>
+```
 
 The events shown here are click events, but are by no means limited to this. Any event that comes from the Android API via activities, fragments, views, etc, should be put in the Listener interface to be dealt with on a higher abstraction level, and methods then called on the fragment (via the Ui derivative interface) to update the UI or interact with the Android API further as determined by the UI and application logic.
 
 In the fragment example above, the Retry event is called like so:
-<pre>
+
+```java
 if (hasListener()) {
     listener().onClickRetry(DataListFragment.this);
 }
-</pre>
+```
 
 The listener is a DataListUi.Listener object reference. The type has been specified in the class declaration when extending UiFragment:
 
-<pre>
+```java
 public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi.Listener> implements DataListUi {
-</pre>
+```
 
 It can be seen that UiFragment takes two types. The first is an implementation of BaseUiWrapperRepository, which will be discussed later, and the second is the DataListUi.Listener interface. Both UiFragment and BaseUiWrapperRepository belong to the UiWrapper library.
 
@@ -124,7 +125,7 @@ The listener reference should always be checked first by hasListener(). The list
 
 In this example, DataListUi is bound to the DataListUiWrapper:
 
-<pre>
+```java
 public class DataListUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> {
     private final Service service;
 
@@ -184,7 +185,7 @@ public class DataListUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, 
         }
     };
 }
-</pre>
+```
 
 # More on the UiWrapper library
 
