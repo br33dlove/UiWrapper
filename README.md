@@ -30,7 +30,6 @@ public interface DataListUi extends Ui {
 }
 ```
 
-
 Fragments then implement the Ui derivatives and implement the UI around those states and events.
 
 ```java
@@ -126,16 +125,16 @@ The listener reference should always be checked first by hasListener(). The list
 In this example, DataListUi is bound to the DataListUiWrapper:
 
 ```java
-public class DataListUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> {
+public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener, DataListUiModel> {
     private final Service service;
 
-    private DataListUiWrapper(ExampleUiModel uiModel, Service service) {
+    private DataListUiWrapper(DataListUiModel uiModel, Service service) {
         super(uiModel);
         this.service = service;
     }
 
     public static DataListUiWrapper newInstance(final DataListUiModelFactory uiModelFactory, final Service service) {
-        return new ExampleUiWrapper(resource, uiModelFactory.create());
+        return new DataListUiWrapper(resource, uiModelFactory.create());
     }
 
     public static DataListUiWrapper savedElseNewInstance(
@@ -143,8 +142,8 @@ public class DataListUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, 
             final Service service,
             final Bundle savedInstanceState
     ) {
-        final ExampleUiModel uiModel = UiWrapper.savedUiModel(savedInstanceState);
-        return uiModel == null ? newInstance(uiModelFactory, service) : new ExampleUiWrapper(uiModel, service);
+        final DataListUiModel uiModel = UiWrapper.savedUiModel(savedInstanceState);
+        return uiModel == null ? newInstance(uiModelFactory, service) : new DataListUiWrapper(uiModel, service);
     }
 
     @Override
@@ -186,6 +185,8 @@ public class DataListUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, 
     };
 }
 ```
+
+//TODO talk about details of DataListUiWrapper implementation
 
 # More on the UiWrapper library
 
