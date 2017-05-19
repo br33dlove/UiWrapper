@@ -4,7 +4,7 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 
 import com.davidc.uiwrapper.UiWrapperRepositoryFactory;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.UiWrapperRepository;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperRepository;
 
 public class ExampleApplication extends Application implements UiWrapperRepositoryFactory<UiWrapperRepository> {
     private UiWrapperRepositoryFactory<UiWrapperRepository> viewWrapperRepositoryFactory;

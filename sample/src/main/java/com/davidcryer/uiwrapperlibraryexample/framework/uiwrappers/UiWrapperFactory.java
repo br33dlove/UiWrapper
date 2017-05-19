@@ -1,10 +1,10 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers;
+package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.ExampleUiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.viewmodel.ExampleUiModelFactory;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUiWrapper;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModelFactory;
 import com.davidcryer.uiwrapperlibraryexample.model.ResourceRepository;
 
 public class UiWrapperFactory {

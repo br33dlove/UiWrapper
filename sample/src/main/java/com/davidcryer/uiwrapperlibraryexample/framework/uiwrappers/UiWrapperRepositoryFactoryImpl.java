@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers;
+package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers;
 
 import android.support.annotation.NonNull;
 

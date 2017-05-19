@@ -1,12 +1,12 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers;
+package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.davidc.uiwrapper.BaseUiWrapperRepository;
 import com.davidc.uiwrapper.UiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.ExampleUi;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.viewmodel.ExampleUiModel;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUi;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModel;
 
 import java.util.HashMap;
 import java.util.Map;

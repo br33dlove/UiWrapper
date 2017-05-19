@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.davidc.uiwrapper.UiFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
 import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.ExampleFragmentNavigator;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.ExampleUi;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.UiWrapperRepository;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUi;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperRepository;
 
 public class ExampleFragment extends UiFragment<UiWrapperRepository, ExampleUi.Listener> implements ExampleUi {
     private ExampleFragmentNavigator navigator;

@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example;
+package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example;
 
 import com.davidc.uiwrapper.Ui;
 

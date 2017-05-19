@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBar;
 import com.davidc.uiwrapper.SingleContentContainerWithAppBarActivity;
 import com.davidcryer.uiwrapperlibraryexample.androidhelpers.DrawableHelper;
 import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.ExampleFragmentNavigator;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.UiWrapperRepository;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperRepository;
 import com.davidcryer.uiwrapperlibraryexample.ui.ExampleFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
 

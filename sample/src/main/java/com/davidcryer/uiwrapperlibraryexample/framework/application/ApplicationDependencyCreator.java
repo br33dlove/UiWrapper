@@ -1,10 +1,10 @@
 package com.davidcryer.uiwrapperlibraryexample.framework.application;
 
 import com.davidc.uiwrapper.UiWrapperRepositoryFactory;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.UiWrapperFactory;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.UiWrapperRepositoryFactoryImpl;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.UiWrapperRepository;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.viewmodel.ExampleUiModelFactory;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperFactory;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperRepositoryFactoryImpl;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperRepository;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModelFactory;
 import com.davidcryer.uiwrapperlibraryexample.model.ResourceRepository;
 
 class ApplicationDependencyCreator {
