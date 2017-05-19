@@ -2,8 +2,189 @@
 
 Library to provide wrapping of Android Fragments to smooth out lifecycles and provide view framework for MVP architectures on Android platform
 
+UiWrapper provides a framework with which to structure the UI your application, aiding a more modular approach to building the UI and hence one that is more easily testable.
+
 # Implementing UiWrapper
-//Work through example
+
+The UiWrapper library provides the Ui interface in which to draw up contracts for each screen. By extending the Ui interface, the UI can be built as collection of states and events.
+
+<pre>
+public interface DataListUi extends Ui {
+    //States
+    void animateLoadingFromFailureToGetData();
+    void showLoading();
+    
+    void showData(List<Data> data);
+    void animateToDataFromLoading(List<Data> data);
+    
+    void showFailureToGetData();
+    void animateToFailureToGetDataFromLoading();
+    
+    void navigateToDataDetailsScreen(Data data);
+    
+    public interface Listener extends Ui.Listener {
+        //Events
+        void onClickData(DataListUi ui, Data data);
+        void onClickRetry(DataListUi ui);
+    }
+}
+</pre>
+
+
+Fragments then implement the Ui derivatives and implement the UI around those states and events.
+
+<pre>
+public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi.Listener> implements DataListUi {
+    ...
+    //Fragment setup
+    ...
+    
+    @Override
+    public void animateLoadingFromFailureToGetData() {
+      progressBar.animateIn();
+      retryButton.animateOut();
+    }
+
+    @Override
+    public void showLoading() {
+        progressBar.show();
+        retryButton.hide();
+    }
+    
+    @Override
+    public void showData(final List<Data> data) {
+        recyclerView.showData(data, dataListListener)
+        progressBar.hide();
+        retryButton.hide();
+    }
+    
+    @Override
+    public void animateToDataFromLoading(final List<Data> data) {
+        recyclerView.animateInData(data, dataListListener);
+        progressBar.animateOut();
+    }
+    
+    private final DataList.Listener dataListListener = new DataList.OnClickListener() {
+        @Override
+        public void onClick(Data data) {
+            if (hasListener()) {
+                listener.onClickData(DataListFragment.this, data);
+            }
+        }
+    };
+    
+    @Override 
+    public void showFailureToGetData() {
+        progressBar.hide();
+        retryButton.show();
+    }
+    
+    @Override 
+    public void animateToFailureToGetDataFromLoading() {
+        progressBar.animateOut();
+        retryButton.animateIn();
+    }
+    
+    private final OnClickListener retryClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (hasListener()) {
+                listener().onClickRetry(DataListFragment.this);
+            }
+        }
+    }
+    
+    @Override
+    public void navigateToDataDetailsScreen(final Data data) {
+        navigator.toDataDetails(data);
+    }
+    
+    ...
+}
+</pre>
+
+The events shown here are click events, but are by no means limited to this. Any event that comes from the Android API via activities, fragments, views, etc, should be put in the Listener interface to be dealt with on a higher abstraction level, and methods then called on the fragment (via the Ui derivative interface) to update the UI or interact with the Android API further as determined by the UI and application logic.
+
+In the fragment example above, the Retry event is called like so:
+<pre>
+if (hasListener()) {
+    listener().onClickRetry(DataListFragment.this);
+}
+</pre>
+
+The listener is a DataListUi.Listener object reference. The type has been specified in the class declaration when extending UiFragment:
+
+<pre>
+public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi.Listener> implements DataListUi {
+</pre>
+
+It can be seen that UiFragment takes two types. The first is an implementation of BaseUiWrapperRepository, which will be discussed later, and the second is the DataListUi.Listener interface. Both UiFragment and BaseUiWrapperRepository belong to the UiWrapper library.
+
+The listener reference should always be checked first by hasListener(). The listener reference is obtained during binding with the UiWrapper in onViewCreated(View) or onStart() and removed during unbinding in onSaveInstanceState(Bundle) or onStop().
+
+In this example, DataListUi is bound to the DataListUiWrapper:
+
+<pre>
+public class DataListUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> {
+    private final Service service;
+
+    private DataListUiWrapper(ExampleUiModel uiModel, Service service) {
+        super(uiModel);
+        this.service = service;
+    }
+
+    public static DataListUiWrapper newInstance(final DataListUiModelFactory uiModelFactory, final Service service) {
+        return new ExampleUiWrapper(resource, uiModelFactory.create());
+    }
+
+    public static DataListUiWrapper savedElseNewInstance(
+            final DataListUiModelFactory uiModelFactory,
+            final Service service,
+            final Bundle savedInstanceState
+    ) {
+        final ExampleUiModel uiModel = UiWrapper.savedUiModel(savedInstanceState);
+        return uiModel == null ? newInstance(uiModelFactory, service) : new ExampleUiWrapper(uiModel, service);
+    }
+
+    @Override
+    protected DataListUi.Listener uiListener() {
+        return new DataListUi.Listener() {
+            @Override
+            public void onClickData(DataListUi ui, Data data) {
+                ui.navigateToDataDetailsScreen(data);
+            }
+            
+            @Override
+            public void onClickRetry(DataListUi ui) {
+                ui.animateToLoadingFromFailureToGetData();
+            }
+        };
+    }
+    
+    @Override
+    protected void registerResources() {
+        if (uiModel().isLoading()) {
+            service.getData(serviceCallback);
+        }
+    }
+    
+    @Override
+    protected void unregisterResources() {
+        service.cancelAnyRequests()
+    }
+    
+    private final Service.Callback serviceCallback = new Service.Callback() {
+        @Override
+        public void onSuccess(final Data data) {
+            uiModel().showData(ui(), data);
+        }
+        
+        @Override void onFailure() {
+            uiModel().showFailureToGetData(ui());
+        }
+    };
+}
+</pre>
 
 # More on the UiWrapper library
 
