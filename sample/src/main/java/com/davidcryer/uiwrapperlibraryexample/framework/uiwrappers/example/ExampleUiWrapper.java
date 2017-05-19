@@ -8,7 +8,6 @@ import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewm
 import com.davidcryer.uiwrapperlibraryexample.model.Resource;
 
 public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> {
-    private final static String ARG_OUT_STATE_UI_MODEL = "ui model";
     private final Resource resource;
 
     private ExampleUiWrapper(Resource resource, ExampleUiModel uiModel) {
@@ -25,7 +24,7 @@ public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, E
             final ExampleUiModelFactory uiModelFactory,
             final Bundle savedInstanceState
     ) {
-        final ExampleUiModel uiModel = savedInstanceState.getParcelable(ARG_OUT_STATE_UI_MODEL);
+        final ExampleUiModel uiModel = UiWrapper.savedUiModel(savedInstanceState);
         return uiModel == null ? newInstance(resource, uiModelFactory) : new ExampleUiWrapper(resource, uiModel);
     }
 
