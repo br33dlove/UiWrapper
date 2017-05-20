@@ -2,17 +2,19 @@
 
 Library to provide wrapping of Android Fragments to smooth out lifecycles and provide view framework for MVP architectures on Android platform
 
-UiWrapper provides a framework with which to structure the UI your application, aiding a more modular approach to building the UI and hence one that is more easily testable.
-
 # Implementing UiWrapper
+
+The UiWrapper library provides the means to structure an application's UI in terms of a UI abstraction (the Ui interface), a UI implementation (an Android fragment), a UiModel holding the UI's state, and a UiWrapper handling the UI logic in response to events from the UI implementation and interacting with back-end services.
+
+<b>Ui</b>
 
 The UiWrapper library provides the Ui interface in which to draw up contracts for each screen. By extending the Ui interface, the UI can be built as collection of states and events.
 
 ```java
 public interface DataListUi extends Ui {
     //States
-    void animateLoadingFromFailureToGetData();
     void showLoading();
+    void animateToLoadingFromFailureToGetData();
     
     void showData(List<Data> data);
     void animateToDataFromLoading(List<Data> data);
@@ -30,24 +32,28 @@ public interface DataListUi extends Ui {
 }
 ```
 
-Fragments then implement the Ui derivatives and implement the UI around those states and events.
+This interface should be able to describe exactly what the screen does, whilst not being bogged down in implementation detail.
+
+<b>UiFragment</b>
+
+Fragments extending the UiFragment class then implement the Ui derivatives and implement the UI around those states and events. UiFragment takes two type paramters - a Ui.Listener derivative type, as well as a UiWrapperRepository type which will be discussed later. The UiFragment handles initialising the binding and unbinding of the fragment to the UiWrapper and provides a Ui.Listener reference (here DataListUi.Listener) to the subclass via the listener() method.
 
 ```java
 public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi.Listener> implements DataListUi {
     ...
     //Fragment setup
     ...
-    
-    @Override
-    public void animateLoadingFromFailureToGetData() {
-      progressBar.animateIn();
-      retryButton.animateOut();
-    }
 
     @Override
     public void showLoading() {
         progressBar.show();
         retryButton.hide();
+    }
+    
+    @Override
+    public void animateToLoadingFromFailureToGetData() {
+      progressBar.animateIn();
+      retryButton.animateOut();
     }
     
     @Override
@@ -102,7 +108,7 @@ public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi
 }
 ```
 
-The events shown here are click events, but are by no means limited to this. Any event that comes from the Android API via activities, fragments, views, etc, should be put in the Listener interface to be dealt with on a higher abstraction level, and methods then called on the fragment (via the Ui derivative interface) to update the UI or interact with the Android API further as determined by the UI and application logic.
+The events shown here are click events, but are by no means limited to this. Any event that comes from the Android API via activities, fragments, views, services, broadcast receivers, etc, should be put in the Listener interface to be dealt with on a higher abstraction level, and methods then called on the fragment (via the Ui derivative interface) to update the UI or interact with the Android API further as determined by the UI and application logic.
 
 In the fragment example above, the Retry event is called like so:
 
@@ -112,17 +118,118 @@ if (hasListener()) {
 }
 ```
 
-The listener is a DataListUi.Listener object reference. The type has been specified in the class declaration when extending UiFragment:
-
-```java
-public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi.Listener> implements DataListUi {
-```
-
-It can be seen that UiFragment takes two types. The first is an implementation of BaseUiWrapperRepository, which will be discussed later, and the second is the DataListUi.Listener interface. Both UiFragment and BaseUiWrapperRepository belong to the UiWrapper library.
-
 The listener reference should always be checked first by hasListener(). The listener reference is obtained during binding with the UiWrapper in onViewCreated(View) or onStart() and removed during unbinding in onSaveInstanceState(Bundle) or onStop().
 
-In this example, DataListUi is bound to the DataListUiWrapper:
+The binding and unbinding of the Ui objects occurs in the library's UiWrapper class. It holds a final reference to the screen's UiModel that can be obtained in the UiWrapper subclasses through uiModel(), and a nullable reference to the Ui object that is similarly obtained through ui(). During binding, the UiWrapper class calls the method onto(Ui) on the UiModel in order to set the Ui object up for the current state.
+
+<b>UiModel</b>
+
+```java
+public class DataListUiModel implements UiModel<DataListUi> {
+    enum State {LOADING, DATA, FAILURE_TO_LOAD_DATA}
+    private State state;
+    private List<Data> data;
+
+    DataListUiModel(final State state, final List<Data> data) {
+        this.state = state;
+        this.data = data;
+    }
+    
+    private DataListUiModel(final Parcel parcel) {
+        state = parcel.readSerializable();
+    }
+    
+    @Override
+    public void onto(final DataListUi ui) {
+        switch (state) {
+            case LOADING: {
+                ui.showLoading();
+                break;
+            }
+            case DATA: {
+                ui.showData(data);
+                break;
+            }
+            case FAILURE_TO_LOAD_DATA: {
+                ui.showFailureToLoadData();
+                break;
+            }
+        }
+    }
+    
+    @Override
+    public void writeToParcel(final Parcel parcel) {
+        parcel.writeSerializable(state == State.DATA ? State.LOADING : state);
+    }
+    ...
+}
+```
+
+The UiModel interface extends Parcelable, and the UiModel subclass has it's state saved by the UiWrapper when unbinding and restored when binding if it was previously stored. In this example List<Data> is non-parcelable and so if the state variable is State.DATA, then we store State.LOADING instead an let the list get garbage collected. 
+
+Note that we stored LOADING, but did not change the State variable in case the UiModel persists and therefore the data list also persists. An example of the UiModel instance persisting after being parceled is if the user leaves the screen/app, but the activity does not get killed, or if the activity undergoes a configuration change (where the activity actually is killed!). Therefore, this trick in writeToParcel() is to handle the Android system requiring extra memory and allowing us to come back from that, we go and re-fetch the data, but otherwise ignoring it.
+
+As the UiModel holds the state of the UI, we need methods to update the state. These will roughly match some of the methods in the DataListUi interface and will be called by the DataListUiWrapper class:
+
+```java
+public class DataListUiModel implements UiModel<DataListUi> {
+    ...
+    
+    public void showLoading(final DataListUi ui) {
+        if (ui != null) {
+            ui.animateToLoadingFromFailureToGetData();
+        }
+        state = State.LOADING;
+    }
+    
+    public void showData(final DataListUi ui, final List<Data> data) {
+        if (ui != null) {
+            ui.animateToDataFromLoading(data);
+        }
+        ui = State.DATA;
+        this.data = data;
+    }
+    
+    public void showFailureToGetData(final DataListUi ui) {
+        if (ui != null) {
+            ui.animateToFailureToGetDataFromLoading();
+        }
+        ui = State.FAILURE_TO_GET_DATA;
+    }
+    
+    ...
+}
+```
+
+Note that I haven't added a method for navigating to the data details screen, as that doesn't impact the state of the UI and I can call the method on the DataListUi object directly in the onClickData(DataListUi, Data) event method.
+
+If the DataListUi object is null, then when the new object is bound and onto(DataListUi) is called the new state is set on it. If it is not null, then the changes in UI states can be animated on screen. In the example I have assumed that the animations will go from a specific state to the next, e.g. to 'loading' from 'failure to get new data', as there is a specific flow that the UI follows. However, if a UI state can be reached from multiple previous states, then one can simply check for each and animate to the new state accordingly.
+
+```java
+public class ExampleUiModel implements UiModel<ExampleUi> {
+    ...
+    
+    public void showC(final ExampleUi ui) {
+        if (ui != null) {
+            switch (state): {
+                case A: {
+                    ui.animateToCFromA();
+                    break;
+                }
+                case B: {
+                    ui.animateToCFromB();
+                    break;
+                }
+            }
+        }
+        state = State.C;
+    }
+}
+```
+
+<b>UiWrapper</b>
+
+//TODO UiWrapper intro?
 
 ```java
 public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener, DataListUiModel> {
@@ -156,7 +263,7 @@ public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener
             
             @Override
             public void onClickRetry(DataListUi ui) {
-                ui.animateToLoadingFromFailureToGetData();
+                uiModel().animateToLoadingFromFailureToGetData(ui);
             }
         };
     }
