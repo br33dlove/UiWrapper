@@ -1,10 +1,12 @@
 # UiWrapper
 
-Library to provide wrapping of Android Fragments to smooth out lifecycles and provide view framework for MVP architectures on Android platform
+Library to provide wrapping of Android Fragments to smooth out lifecycles and provide framework for MVP architectures on the Android platform.
 
 # Implementing UiWrapper
 
-The UiWrapper library provides the means to structure an application's UI in terms of a UI abstraction (the Ui interface), a UI implementation (an Android fragment), a UiModel holding the UI's state, and a UiWrapper handling the UI logic in response to events from the UI implementation and interacting with back-end services.
+The UiWrapper library provides the means to structure an application's UI in terms of a UI abstraction (the Ui interface), a UI implementation (an Android fragment), a UiModel holding the UI's state, and a Presenter handling the UI logic in response to events from the UI implementation and interacting with back-end services (UiWrapper).
+
+Here I am going to take you through an example of a screen where a list of data is downloaded from a server and shown if the download is successful, or have an error state shown if unsuccessful. While downloading, a loading state is shown, and when downloaded a user can tap on a list item to be navigated to a screen displaying the details of that item.
 
 <b>Ui</b>
 
@@ -197,6 +199,9 @@ public class DataListUiModel implements UiModel<DataListUi> {
         ui = State.FAILURE_TO_GET_DATA;
     }
     
+    public boolean isLoading() {
+        return state == State.LOADING;
+    }
     ...
 }
 ```
@@ -229,7 +234,11 @@ public class ExampleUiModel implements UiModel<ExampleUi> {
 
 <b>UiWrapper</b>
 
-//TODO UiWrapper intro?
+The UiWrapper superclass and its derivatives are the only objects to interact with the UiModels. The superclass sets the UiModel onto the Ui object with onto(Ui) as we have seen, and the subclasses call the other methods to update the UI state. The superclass handles the saving of the UiModel and opens the static method savedUiModel(Bundle) to the subclasses to get the stored UiModel out.
+
+The DataListUiWrapper class must implement uiListener() and return an instance of the DataListUi.Listener interface for the DataListFragment to use.
+
+Two methods can also be overriden by DataListUiWrapper - registerResources() and unregisterResources() - which signal when to register to or request data from back-end services, and when to unregister or cancel those requests. In unregisterResources() it is vital that all references to the UiWrapper are removed from objects held at the Application level to ensure that memory is not leaked. These 
 
 ```java
 public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener, DataListUiModel> {
@@ -241,7 +250,7 @@ public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener
     }
 
     public static DataListUiWrapper newInstance(final DataListUiModelFactory uiModelFactory, final Service service) {
-        return new DataListUiWrapper(resource, uiModelFactory.create());
+        return new DataListUiWrapper(uiModelFactory.create(), service);
     }
 
     public static DataListUiWrapper savedElseNewInstance(
@@ -263,7 +272,8 @@ public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener
             
             @Override
             public void onClickRetry(DataListUi ui) {
-                uiModel().animateToLoadingFromFailureToGetData(ui);
+                uiModel().showLoading(ui);
+                service.getData(serviceCallback);
             }
         };
     }
@@ -293,8 +303,6 @@ public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener
 }
 ```
 
-//TODO talk about details of DataListUiWrapper implementation
-
 # More on the UiWrapper library
 
 <b>Aim</b>
@@ -309,7 +317,7 @@ Fragments must extend the UiFragment abstract class and are responsible for the 
 
 <b>The UiWrapper class</b>
 
-Ideally, the UiWrapper derivatives are used to implement the View interface in an MVP architecture, where the Presenter is created in the UiWrapper's constructor and handles the communication with back-end services/the Model component and controlling the high-level UI logic, in order to complete the separation of the Android API from the UI and business logic. An example can be found here: https://github.com/davidcryer/TrumpOrGump.
+The UiWrapper derivatives are the Presenters in the architecture and handle the communication with back-end services/the Model component and controlling the high-level UI logic.
 
 UiWrapper provides a layer of abstraction above UI-implementations (fragments, activities) and also acts to smooth out fragment and activity lifecycles by persisting across configuration changes. As such, Ui objects are bound-to and unbound-from the UiWrapper and the UiWrapper holds the Ui state in UiModel derivatives which configures the Ui object to the current state in every bind event. Also, as they UiWrapper derivatives are created by the developer, dependencies can be injected into the UiWrappers via the constructor. This means that your service objects can be injected where necessary and need not exist as globally-accessible singletons. 
 
@@ -320,7 +328,7 @@ In the case of MVP, these service-objects would instead be injected into the pre
 
 <b>Samples</b>
 
-A sample application implementing UiWrapper, but not MVP, can be found in the <b>sample</b> module of this project.
+A sample application implementing UiWrapper can be found in the <b>sample</b> module of this project.
 
 Other examples can be found throughout my repositories, including the following:
 
