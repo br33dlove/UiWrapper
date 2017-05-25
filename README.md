@@ -325,11 +325,42 @@ public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener
 
 #### Activities and extending the UiWrapperRepositoryActivity class
 
-// TODO
+Activities are responsible for providing the app bar and view containers in which to attach the fragments, as well as implementing app-wide navigation (adding/removing fragments and starting new activities).
+
+In order to use UiWrappers, activities must extend UiWrapperRepositoryActivity and provide the root layout in which to add the fragments, as well as the initial fragment. For this purpose, I have supplied SingleContentContainerWithAppBarActivity to be extended instead, which provides a layout with an app bar and single content view for fragments, as well as two abstract methods for setting up the action bar and supplying the initial fragment.
+
+The activity for this example would then be as follows:
+
+```java
+public class DataActivity extends SingleContentContainerWithAppBarActivity<UiWrapperRepository> implements DataNavigator {
+
+    //SingleContentContainerWithAppBarActivity methods
+
+    @Override
+    protected void setupActionBar(@NonNull ActionBar actionBar) {
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(DrawableHelper.drawableForColor(this, R.drawable.ic_arrow_back_black_24dp, android.R.color.white));
+    }
+
+    @Override
+    @NonNull
+    protected Fragment initialFragment() {
+        return DataListUiFragment.newInstance();
+    }
+    
+    //DataNavigator methods
+
+    @Override
+    public void toDataDetails(final Data data) {
+        replace(DataDetailsFragment.newInstance(data));
+    }
+}
+```
 
 #### Extending Android's Application class
 
-// TODO
+A requirement of the UiWrapper library is for the Application class to implement the UiWrapperRepositoryFactory interface, which contains a method to return an instance of the BaseUiWrapperRepository abstract class.
 
 #### Extending the BaseUiWrapperRepository class
 
@@ -341,11 +372,9 @@ public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener
 
 The aim of this library is to provide a framework which supports a more modular design of Android applications. It lends a particular structure to an application, where interactions with back-end services are kept away from UI implementations by using UiWrapper derivatives, and defines set responsibilities to fragments and activities. 
 
-
 ### Fragments and Activities responsibilities
 
 Fragments must extend the UiFragment abstract class and are responsible for the UI implementation. Activities must extend UiWrapperRepositoryActivity (or it's derivative SingleContentContainerWithAppBarActivity) and are responsible for providing the app bar and view containers in which to attach the fragments, as well as implementing app-wide navigation (adding/removing fragments and starting new activities). Consequently, the UI and business logic is moved away from the Android API.
-
 
 ### The UiWrapper class
 
@@ -356,7 +385,6 @@ UiWrapper provides a layer of abstraction above UI-implementations (fragments, a
 Injected service objects can then start requests in the registerResources() method, and stop any ongoing requests in the unregisterResources() method, which are both called by the UiWrapper superclass when binding and unbinding Ui objects respectively. 
 
 In the case of MVP, these service-objects would instead be injected into the presenter, and the register and unregister methods would simply be passed on.
-
 
 ### Samples
 
