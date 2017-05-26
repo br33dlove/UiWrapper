@@ -24,22 +24,20 @@ final class CastHelper {
 
     }
 
-    static <R extends BaseUiWrapperRepository> R repositoryFromFactory(final Activity activity) {
+    static BaseUiWrapperRepository repositoryFromFactory(final Activity activity) {
         final Application application = activity.getApplication();
         try {
-            //noinspection unchecked
-            return ((UiWrapperRepositoryFactory<R>) application).create();
+            return ((UiWrapperRepositoryFactory) application).create();
         } catch (ClassCastException cce) {
-            throw new ClassCastException(application.getClass().getSimpleName() + " must implement UiWrapperRepositoryFactory, with generic type of BaseUiWrapperRepository subclass");
+            throw new ClassCastException(application.getClass().getSimpleName() + " must implement UiWrapperRepositoryFactory");
         }
     }
 
-    static <R extends BaseUiWrapperRepository> UiWrapperRepositoryProvider<R> repositoryProvider(final Context context) {
+    static UiWrapperRepositoryProvider repositoryProvider(final Context context) {
         try {
-            //noinspection unchecked
-            return (UiWrapperRepositoryProvider<R>) context;
+            return (UiWrapperRepositoryProvider) context;
         } catch (ClassCastException cce) {
-            throw new ClassCastException(context.getClass().getSimpleName() + " must implement UiWrapperRepositoryProvider, with generic type of BaseUiWrapperRepository subclass");
+            throw new ClassCastException(context.getClass().getSimpleName() + " must implement UiWrapperRepositoryProvider");
         }
     }
 }

@@ -16,7 +16,7 @@ package com.davidc.uiwrapper;
 
 import android.support.annotation.NonNull;
 
-interface UiWrapperRepositoryProvider<R extends BaseUiWrapperRepository> {
+interface UiWrapperRepositoryProvider {
     @NonNull
-    R get();
+    BaseUiWrapperRepository get();
 }

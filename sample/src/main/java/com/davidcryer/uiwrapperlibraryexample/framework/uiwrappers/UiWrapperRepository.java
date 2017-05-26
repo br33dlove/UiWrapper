@@ -13,14 +13,14 @@ import java.util.Map;
 
 public class UiWrapperRepository extends BaseUiWrapperRepository {
     private final UiWrapperFactory uiWrapperFactory;
-    private final Map<String, UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel>> exampleUiMap = new HashMap<>();
+    private final Map<String, UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel>> exampleUiWrapperMap = new HashMap<>();
 
     UiWrapperRepository(UiWrapperFactory uiWrapperFactory) {
         this.uiWrapperFactory = uiWrapperFactory;
     }
 
     public ExampleUi.Listener bind(final ExampleUi ui, final String instanceId, final Bundle savedInstanceState) {
-        return bind(ui, instanceId, exampleUiMap, new UiWrapperProvider<ExampleUi, ExampleUi.Listener, ExampleUiModel>() {
+        return bind(ui, instanceId, exampleUiWrapperMap, new UiWrapperProvider<ExampleUi, ExampleUi.Listener, ExampleUiModel>() {
             @Override
             @NonNull
             public UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> uiWrapper() {
@@ -30,6 +30,6 @@ public class UiWrapperRepository extends BaseUiWrapperRepository {
     }
 
     public void unbind(final ExampleUi ui, final String instanceId, final Bundle outState, final boolean isConfigurationChange) {
-        unbind(instanceId, exampleUiMap, outState, isConfigurationChange);
+        unbind(instanceId, exampleUiWrapperMap, outState, isConfigurationChange);
     }
 }

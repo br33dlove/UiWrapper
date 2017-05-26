@@ -27,7 +27,7 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui.Listener> extends Fragment {
     private final static String ARG_SAVED_INSTANCE_STATE_INSTANCE_ID = "instance id";
-    private UiWrapperRepositoryProvider<R> repositoryProvider;
+    private UiWrapperRepositoryProvider repositoryProvider;
     private boolean isBound = false;
     private L listener;
     private String instanceId;
@@ -54,8 +54,13 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     private void bind(final Bundle savedInstanceState) {
-        listener = bind(repositoryProvider.get(), instanceId, savedInstanceState);
-        isBound = true;
+        try {
+            //noinspection unchecked
+            listener = bind((R) repositoryProvider.get(), instanceId, savedInstanceState);
+            isBound = true;
+        } catch (ClassCastException cce) {
+            throw repositoryException(cce);
+        }
     }
 
     @Override
@@ -80,9 +85,14 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     private void unbind(final Bundle outState) {
-        unbind(repositoryProvider.get(), instanceId, outState, getActivity().isChangingConfigurations());
-        listener = null;
-        isBound = false;
+        try {
+            //noinspection unchecked
+            unbind((R) repositoryProvider.get(), instanceId, outState, getActivity().isChangingConfigurations());
+            listener = null;
+            isBound = false;
+        } catch (ClassCastException cce) {
+            throw repositoryException(cce);
+        }
     }
 
     @Override
@@ -117,5 +127,12 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     @SuppressWarnings("unused")
     protected final L listener() {
         return listener;
+    }
+
+    private RuntimeException repositoryException(final ClassCastException cce) {
+        return new ClassCastException(
+                cce.getLocalizedMessage()
+                        + "\nUiFragment's BaseUiWrapperRepository subclass type must match type provided by Application class"
+        );
     }
 }
