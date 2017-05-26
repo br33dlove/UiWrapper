@@ -9,11 +9,10 @@ import android.support.v7.app.ActionBar;
 import com.davidc.uiwrapper.SingleContentContainerWithAppBarActivity;
 import com.davidcryer.uiwrapperlibraryexample.androidhelpers.DrawableHelper;
 import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.ExampleFragmentNavigator;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperRepository;
 import com.davidcryer.uiwrapperlibraryexample.ui.ExampleFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
 
-public class ExampleActivity extends SingleContentContainerWithAppBarActivity<UiWrapperRepository> implements ExampleFragmentNavigator {
+public class ExampleActivity extends SingleContentContainerWithAppBarActivity implements ExampleFragmentNavigator {
     private final static String ARG_INTENT_SHOW_HOME_AS_BACK = "show home as back";
 
     private static void start(final Context context, final boolean showHomeAsBack) {
