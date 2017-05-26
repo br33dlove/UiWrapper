@@ -1,5 +1,6 @@
 package com.davidcryer.uiwrapperlibraryexample.framework.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,10 @@ import com.davidcryer.uiwrapperlibraryexample.R;
 
 public class ExampleActivity extends SingleContentContainerWithAppBarActivity<UiWrapperRepository> implements ExampleFragmentNavigator {
     private final static String ARG_INTENT_SHOW_HOME_AS_BACK = "show home as back";
+
+    private static void start(final Context context, final boolean showHomeAsBack) {
+        context.startActivity(new Intent(context, ExampleActivity.class).putExtra(ARG_INTENT_SHOW_HOME_AS_BACK, showHomeAsBack));
+    }
 
     @Override
     protected void setupActionBar(@NonNull ActionBar actionBar) {
@@ -31,6 +36,6 @@ public class ExampleActivity extends SingleContentContainerWithAppBarActivity<Ui
 
     @Override
     public void showNewExampleUi() {
-        startActivity(new Intent(this, ExampleActivity.class).putExtra(ARG_INTENT_SHOW_HOME_AS_BACK, true));
+        start(this, true);
     }
 }
