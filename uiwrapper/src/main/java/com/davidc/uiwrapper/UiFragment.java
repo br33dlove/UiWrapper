@@ -54,7 +54,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     private void bind(final Bundle savedInstanceState) {
-        listener = bind(repositoryProvider.get(), instanceId, savedInstanceState);
+        listener = bind(repositoryProvider.get(), new BindingPayload(instanceId, savedInstanceState));
         isBound = true;
     }
 
@@ -80,7 +80,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     private void unbind(final Bundle outState) {
-        unbind(repositoryProvider.get(), instanceId, outState, getActivity().isChangingConfigurations());
+        unbind(repositoryProvider.get(), new UnbindingPayload(instanceId, outState, getActivity().isChangingConfigurations()));
         listener = null;
         isBound = false;
     }
@@ -105,9 +105,9 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
         repositoryProvider = null;
     }
 
-    protected abstract L bind(@NonNull final R uiWrapperRepository, @NonNull final String instanceId, @Nullable final Bundle savedInstanceState);
+    protected abstract L bind(@NonNull final R uiWrapperRepository, @NonNull final BindingPayload bindingPayload);
 
-    protected abstract void unbind(@NonNull final R uiWrapperRepository, @NonNull final String instanceId, @Nullable final Bundle outState, final boolean isConfigurationChange);
+    protected abstract void unbind(@NonNull final R uiWrapperRepository, @NonNull final UnbindingPayload unbindingPayload);
 
     @SuppressWarnings("unused")
     protected final boolean hasListener() {

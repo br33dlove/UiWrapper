@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.davidc.uiwrapper.BindingPayload;
 import com.davidc.uiwrapper.UiFragment;
+import com.davidc.uiwrapper.UnbindingPayload;
 import com.davidcryer.uiwrapperlibraryexample.R;
 import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.ExampleFragmentNavigator;
 import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.ExampleUi;
@@ -67,13 +69,13 @@ public class ExampleFragment extends UiFragment<UiWrapperRepository, ExampleUi.L
     }
 
     @Override
-    protected Listener bind(@NonNull UiWrapperRepository uiWrapperRepository, @NonNull String instanceId, Bundle savedInstanceState) {
-        return uiWrapperRepository.bind(this, instanceId, savedInstanceState);
+    protected Listener bind(@NonNull UiWrapperRepository uiWrapperRepository, @NonNull BindingPayload bindingPayload) {
+        return uiWrapperRepository.bind(this, bindingPayload);
     }
 
     @Override
-    protected void unbind(@NonNull UiWrapperRepository uiWrapperRepository, @NonNull String instanceId, Bundle outState, boolean isConfigurationChange) {
-        uiWrapperRepository.unbind(this, instanceId, outState, isConfigurationChange);
+    protected void unbind(@NonNull UiWrapperRepository uiWrapperRepository, @NonNull UnbindingPayload unbindingPayload) {
+        uiWrapperRepository.unbind(this, unbindingPayload);
     }
 
     @Override

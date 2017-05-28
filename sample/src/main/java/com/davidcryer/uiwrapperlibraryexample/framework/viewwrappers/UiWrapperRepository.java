@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.davidc.uiwrapper.BaseUiWrapperRepository;
+import com.davidc.uiwrapper.BindingPayload;
 import com.davidc.uiwrapper.UiWrapper;
+import com.davidc.uiwrapper.UnbindingPayload;
 import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.ExampleUi;
 import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.viewmodel.ExampleUiModel;
 
@@ -19,17 +21,17 @@ public class UiWrapperRepository extends BaseUiWrapperRepository {
         this.uiWrapperFactory = uiWrapperFactory;
     }
 
-    public ExampleUi.Listener bind(final ExampleUi ui, final String instanceId, final Bundle savedInstanceState) {
-        return bind(ui, instanceId, exampleUiMap, new UiWrapperProvider<ExampleUi, ExampleUi.Listener, ExampleUiModel>() {
-            @Override
+    public ExampleUi.Listener bind(final ExampleUi ui, final BindingPayload bindingPayload) {
+        return bind(ui, exampleUiMap, bindingPayload, new UiWrapperProvider<ExampleUi, ExampleUi.Listener, ExampleUiModel>() {
             @NonNull
-            public UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> uiWrapper() {
+            @Override
+            public UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> uiWrapper(Bundle savedInstanceState) {
                 return uiWrapperFactory.createExampleUiWrapper(savedInstanceState);
             }
         });
     }
 
-    public void unbind(final ExampleUi ui, final String instanceId, final Bundle outState, final boolean isConfigurationChange) {
-        unbind(instanceId, exampleUiMap, outState, isConfigurationChange);
+    public void unbind(final ExampleUi ui, final UnbindingPayload unbindingPayload) {
+        unbind(exampleUiMap, unbindingPayload);
     }
 }
