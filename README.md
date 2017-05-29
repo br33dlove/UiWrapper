@@ -458,7 +458,6 @@ public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi
 }
 ```
 
-
 ## More on the UiWrapper library
 
 ### Aim
