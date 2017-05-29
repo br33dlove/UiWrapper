@@ -19,15 +19,15 @@ public interface DataListUi extends Ui {
     //States
     void showLoading();
     void animateToLoadingFromFailureToGetData();
-    
+
     void showData(List<Data> data);
     void animateToDataFromLoading(List<Data> data);
-    
+
     void showFailureToGetData();
     void animateToFailureToGetDataFromLoading();
-    
+
     void navigateToDataDetailsScreen(Data data);
-    
+
     public interface Listener extends Ui.Listener {
         //Events
         void onClickData(DataListUi ui, Data data);
@@ -55,26 +55,26 @@ public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi
         progressBar.show();
         retryButton.hide();
     }
-    
+
     @Override
     public void animateToLoadingFromFailureToGetData() {
       progressBar.animateIn();
       retryButton.animateOut();
     }
-    
+
     @Override
     public void showData(final List<Data> data) {
         recyclerView.showData(data, dataListListener)
         progressBar.hide();
         retryButton.hide();
     }
-    
+
     @Override
     public void animateToDataFromLoading(final List<Data> data) {
         recyclerView.animateInData(data, dataListListener);
         progressBar.animateOut();
     }
-    
+
     private final DataList.Listener dataListListener = new DataList.OnClickListener() {
         @Override
         public void onClick(Data data) {
@@ -83,19 +83,19 @@ public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi
             }
         }
     };
-    
-    @Override 
+
+    @Override
     public void showFailureToGetData() {
         progressBar.hide();
         retryButton.show();
     }
-    
-    @Override 
+
+    @Override
     public void animateToFailureToGetDataFromLoading() {
         progressBar.animateOut();
         retryButton.animateIn();
     }
-    
+
     private final OnClickListener retryClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -104,12 +104,12 @@ public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi
             }
         }
     }
-    
+
     @Override
     public void navigateToDataDetailsScreen(final Data data) {
         navigator.toDataDetails(data);
     }
-    
+
     ...
 }
 ```
@@ -144,11 +144,11 @@ public class DataListUiModel implements UiModel<DataListUi> {
         this.state = state;
         this.data = data;
     }
-    
+
     private DataListUiModel(final Parcel parcel) {
         state = parcel.readSerializable();
     }
-    
+
     @Override
     public void onto(final DataListUi ui) {
         switch (state) {
@@ -166,7 +166,7 @@ public class DataListUiModel implements UiModel<DataListUi> {
             }
         }
     }
-    
+
     @Override
     public void writeToParcel(final Parcel parcel) {
         parcel.writeSerializable(state == State.DATA ? State.LOADING : state);
@@ -175,7 +175,7 @@ public class DataListUiModel implements UiModel<DataListUi> {
 }
 ```
 
-The UiModel interface extends Parcelable, and the UiModel subclass has it's state saved by the UiWrapper when unbinding and restored when binding if it was previously stored. In this example we treat List<\Data\> as non-parcelable and so if the state variable is State.DATA, then we store State.LOADING instead and let the list get garbage collected. 
+The UiModel interface extends Parcelable, and the UiModel subclass has it's state saved by the UiWrapper when unbinding and restored when binding if it was previously stored. In this example we treat List<\Data\> as non-parcelable and so if the state variable is State.DATA, then we store State.LOADING instead and let the list get garbage collected.
 
 Note that we stored LOADING, but did not change the State variable in case the UiModel persists and therefore the data list also persists. An example of the UiModel instance persisting after being parceled is if the user leaves the screen/app, but the activity does not get killed, or if the activity undergoes a configuration change (where the activity actually is killed!). Therefore, this trick in writeToParcel() is to handle the Android system requiring extra memory and allowing us to come back from that, we go and re-fetch the data, but otherwise ignoring it.
 
@@ -188,14 +188,14 @@ Here are the methods added to the DataListUiModel to update and query the UI sta
 ```java
 public class DataListUiModel implements UiModel<DataListUi> {
     ...
-    
+
     public void showLoading(final DataListUi ui) {
         if (ui != null) {
             ui.animateToLoadingFromFailureToGetData();
         }
         state = State.LOADING;
     }
-    
+
     public void showData(final DataListUi ui, final List<Data> data) {
         if (ui != null) {
             ui.animateToDataFromLoading(data);
@@ -203,14 +203,14 @@ public class DataListUiModel implements UiModel<DataListUi> {
         ui = State.DATA;
         this.data = data;
     }
-    
+
     public void showFailureToGetData(final DataListUi ui) {
         if (ui != null) {
             ui.animateToFailureToGetDataFromLoading();
         }
         ui = State.FAILURE_TO_GET_DATA;
     }
-    
+
     public boolean isLoading() {
         return state == State.LOADING;
     }
@@ -225,7 +225,7 @@ If the Ui object is null, then when the new object is bound, and onto(Ui) is cal
 ```java
 public class ExampleUiModel implements UiModel<ExampleUi> {
     ...
-    
+
     public void showC(final ExampleUi ui) {
         if (ui != null) {
             switch (state): {
@@ -287,7 +287,7 @@ public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener
             public void onClickData(DataListUi ui, Data data) {
                 ui.navigateToDataDetailsScreen(data);
             }
-            
+
             @Override
             public void onClickRetry(DataListUi ui) {
                 uiModel().showLoading(ui);
@@ -295,25 +295,25 @@ public class DataListUiWrapper extends UiWrapper<DataListUi, DataListUi.Listener
             }
         };
     }
-    
+
     @Override
     protected void registerResources() {
         if (uiModel().isLoading()) {
             service.getData(serviceCallback);
         }
     }
-    
+
     @Override
     protected void unregisterResources() {
         service.cancelAnyRequests()
     }
-    
+
     private final Service.Callback serviceCallback = new Service.Callback() {
         @Override
         public void onSuccess(final Data data) {
             uiModel().showData(ui(), data);
         }
-        
+
         @Override void onFailure() {
             uiModel().showFailureToGetData(ui());
         }
@@ -348,7 +348,7 @@ public class DataActivity extends SingleContentContainerWithAppBarActivity<UiWra
     protected Fragment initialFragment() {
         return DataListUiFragment.newInstance();
     }
-    
+
     //DataNavigator methods
 
     @Override
@@ -436,11 +436,11 @@ public class DataApplication extends Application implements UiWrapperRepositoryF
 
 ##### Finishing UiFragment extension
 
-UiFragment has two abstract methods called bind and unbind that weren't shown in the example above. The aim of these methods are to get the instances of the Ui objects with their concrete types, following the Visitor Pattern. 
+UiFragment has two abstract methods called bind and unbind that weren't shown in the example above. The aim of these methods are to get the instances of the Ui objects with their concrete types, following the Visitor Pattern, and pass these through to the bind and unbind methods in the UiWrapperRepository.
 
 In these methods, we are given an instance of BaseUiWrapperRepository under the type set in the class declaration, as well as configurable objects used in the binding and unbinding process. These objects are already configured for use by the BaseUiWrapperRepository, but can be reconfigured by the developer if they wish to customize the binding and unbinding processes.
 
-Here we will ensure that UiWrapperRepository is set in UiFragment's type parameters in the class declaration and call bind and unbind on the repository where necessary, passing the Ui obejct through the method parameters:
+Here we will ensure that UiWrapperRepository is set in UiFragment's type parameters in the class declaration and call bind and unbind on the repository where necessary, passing the Ui object through the method parameters:
 
 ```java
 public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi.Listener> implements DataListUi {
@@ -450,7 +450,7 @@ public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi
     protected DataListUi.Listener bind(@NonNull UiWrapperRepository uiWrapperRepository, @NonNull BindingPayload bindingPayload) {
         return uiWrapperRepository.bind(this, bindingPayload);
     }
-    
+
     @Override
     protected void unbind()@NonNull UiWrapperRepository uiWrapperRepository, @NonNull UnbindingPayload unbindingPayload) {
         uiWrapperRepository.unbind(this, unbindingPayload);
@@ -458,11 +458,15 @@ public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi
 }
 ```
 
+#### Final comments
+
+// TODO
+
 ## More on the UiWrapper library
 
 ### Aim
 
-The aim of this library is to provide a framework which supports a more modular design of Android applications. It lends a particular structure to an application, where interactions with back-end services are kept away from UI implementations by using UiWrapper derivatives, and defines set responsibilities to fragments and activities. 
+The aim of this library is to provide a framework which supports a more modular design of Android applications. It lends a particular structure to an application, where interactions with back-end services are kept away from UI implementations by using UiWrapper derivatives, and defines set responsibilities to fragments and activities.
 
 ### Fragments and Activities responsibilities
 
@@ -472,9 +476,9 @@ Fragments must extend the UiFragment abstract class and are responsible for the 
 
 The UiWrapper derivatives are the Presenters in the architecture and handle the communication with back-end services/the Model component and controlling the high-level UI logic.
 
-UiWrapper provides a layer of abstraction above UI-implementations (fragments, activities) and also acts to smooth out fragment and activity lifecycles by persisting across configuration changes. As such, Ui objects are bound-to and unbound-from the UiWrapper and the UiWrapper holds the Ui state in UiModel derivatives which configures the Ui object to the current state in every bind event. Also, as they UiWrapper derivatives are created by the developer, dependencies can be injected into the UiWrappers via the constructor. This means that your service objects can be injected where necessary and need not exist as globally-accessible singletons. 
+UiWrapper provides a layer of abstraction above UI-implementations (fragments, activities) and also acts to smooth out fragment and activity lifecycles by persisting across configuration changes. As such, Ui objects are bound-to and unbound-from the UiWrapper and the UiWrapper holds the Ui state in UiModel derivatives which configures the Ui object to the current state in every bind event. Also, as they UiWrapper derivatives are created by the developer, dependencies can be injected into the UiWrappers via the constructor. This means that your service objects can be injected where necessary and need not exist as globally-accessible singletons.
 
-Injected service objects can then start requests in the registerResources() method, and stop any ongoing requests in the unregisterResources() method, which are both called by the UiWrapper superclass when binding and unbinding Ui objects respectively. 
+Injected service objects can then start requests in the registerResources() method, and stop any ongoing requests in the unregisterResources() method, which are both called by the UiWrapper superclass when binding and unbinding Ui objects respectively.
 
 In the case of MVP, these service-objects would instead be injected into the presenter, and the register and unregister methods would simply be passed on.
 
