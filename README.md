@@ -358,13 +358,106 @@ public class DataActivity extends SingleContentContainerWithAppBarActivity<UiWra
 }
 ```
 
-#### Extending Android's Application class
+#### Setting up the UiWrapper framework
 
-A requirement of the UiWrapper library is for the Application class to implement the UiWrapperRepositoryFactory interface, which contains a method to return an instance of the BaseUiWrapperRepository abstract class.
+##### Extending the BaseUiWrapperRepository class
 
-#### Extending the BaseUiWrapperRepository class
+The UiWrapper library requires an instance of the BaseUiWrapperRepository abstract class to be supplied by the Application class, implementing the UiWrapperRepositoryFactory interface. The BaseUiWrapperRepository class provides protected static methods handling the logic for binding and unbinding, although these can be handled by the developer if they wish to customise the process.
 
-// TODO
+For the static bind method, an implementation of the UiWrapperProvider interface must be given to provide the BaseUiWrapperRepository with UiWrapper instances.
+
+Here is our implementation:
+
+```java
+public class UiWrapperRepository extends BaseUiWrapperRepository {
+    private final UiWrapperFactory;
+    private final Map<String, DataListUiWrapper> dataListUiWrapperMap = new HashMap();
+    private final Map<String, DataDetailsUiWrapper> dataDetailsUiWrapperMap = new HashMap();
+
+    public UiWrapperRepository(UiWrapperFactory uiWrapperFactory) {
+        this.uiWrapperFactory = uiWrapperFactory;
+    }
+
+    public UiWrapperRepositoryFactory(UiWrapperFactory) {
+        this.uiWrapperFactory = uiWrapperFactory;
+    }
+
+    public DataListUi.Listener bind(final DataListUi ui, final BindingPayload bindingPayload) {
+        return bind(ui, dataListUiWrapperMap, bindingPayload, new UiWrapperProvider() {
+            @NonNull
+            @Override
+            public UiWrapper<DataListUi, DataListUi.Listener, DataListUiModel> uiWrapper(final Bundle savedInstanceState) {
+                return uiWrapperFactory.createDataListUiWrapper(savedInstanceState);
+            }
+        });
+    }
+
+    public void unbind(final DataListUi ui, final UnbindingPayload unbindingPayload) {
+        unbind(dataListUiWrapperMap, unbindingPayload)
+    }
+
+    public DataDetailsUi.Listener bind(final DataDetailsUi ui, final BindingPayload bindingPayload) {
+        return bind(ui, dataDetailsUiWrapperMap, bindingPayload, new UiWrapperProvider() {
+            @NonNull
+            @Override
+            public UiWrapper<DataDetailsUi, DataDetailsUi.Listener, DataDetailsUiModel> uiWrapper(Bundle savedInstanceState) {
+                return uiWrapperFactory.createDataDetailsUiWrapper(savedInstanceState);
+            }
+        });
+    }
+
+    public void unbind(final DataDetailsUi ui, final UnbindingPayload unbindingPayload) {
+        unbind(dataDetailsUiWrapperMap, unbindingPayload)
+    }
+}
+```
+
+##### Extending Android's Application class
+
+As stated before, we must implement the UiWrapperRepositoryFactory interface by the Application class. This is how we provide the UiWrapperRepositories to retained fragments held by the activities, which are use in order to survive configuration changes.
+
+Here we will just return new instances of our UiWrapperRepository class, although elsewhere we will have to some set up to provide it with the dependencies for the UiWrappers:
+
+```java
+public class DataApplication extends Application implements UiWrapperRepositoryFactory<UiWrapperRepository> {
+    private UiWrapperRepositoryFactory uiWrapperRepositoryFactory;
+
+    @Override
+    public void onCreate() {
+        uiWrapperRepositoryFactory = ApplicationDependencyProvider.createUiWrapperRepositoryFactory();
+    }
+
+    @Override
+    public UiWrapperRepository create() {
+        return uiWrapperRepositoryFactory.create();
+    }
+}
+```
+
+##### Finishing UiFragment extension
+
+UiFragment has two abstract methods called bind and unbind that weren't shown in the example above. The aim of these methods are to get the instances of the Ui objects with their concrete types, following the Visitor Pattern. 
+
+In these methods, we are given an instance of BaseUiWrapperRepository under the type set in the class declaration, as well as configurable objects used in the binding and unbinding process. These objects are already configured for use by the BaseUiWrapperRepository, but can be reconfigured by the developer if they wish to customize the binding and unbinding processes.
+
+Here we will ensure that UiWrapperRepository is set in UiFragment's type parameters in the class declaration and call bind and unbind on the repository where necessary, passing the Ui obejct through the method parameters:
+
+```java
+public class DataListFragment extends UiFragment<UiWrapperRepository, DataListUi.Listener> implements DataListUi {
+    ...
+
+    @Override
+    protected DataListUi.Listener bind(@NonNull UiWrapperRepository uiWrapperRepository, @NonNull BindingPayload bindingPayload) {
+        return uiWrapperRepository.bind(this, bindingPayload);
+    }
+    
+    @Override
+    protected void unbind()@NonNull UiWrapperRepository uiWrapperRepository, @NonNull UnbindingPayload unbindingPayload) {
+        uiWrapperRepository.unbind(this, unbindingPayload);
+    }
+}
+```
+
 
 ## More on the UiWrapper library
 
