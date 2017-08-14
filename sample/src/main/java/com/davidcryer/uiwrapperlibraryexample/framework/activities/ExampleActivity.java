@@ -12,7 +12,7 @@ import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.UiWrapperRe
 import com.davidcryer.uiwrapperlibraryexample.ui.ExampleFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
 
-public class ExampleActivity extends SingleContentContainerWithAppBarActivity<UiWrapperRepository> implements ExampleFragmentNavigator {
+public class ExampleActivity extends SingleContentContainerWithAppBarActivity implements ExampleFragmentNavigator {
     private final static String ARG_INTENT_SHOW_HOME_AS_BACK = "show home as back";
 
     @Override

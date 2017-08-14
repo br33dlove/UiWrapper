@@ -19,8 +19,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-public final class UiWrapperRepositoryFragment<R extends BaseUiWrapperRepository> extends Fragment implements UiWrapperRepositoryProvider {
-    private R repository;
+public final class UiWrapperRepositoryFragment extends Fragment implements UiWrapperRepositoryProvider {
+    private Object repository;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,12 +30,12 @@ public final class UiWrapperRepositoryFragment<R extends BaseUiWrapperRepository
     }
 
     private void initRepository() {
-        repository = CastHelper.repositoryFromFactory(getActivity());
+        repository = CastHelper.repositoryFactory(getActivity().getApplication()).create();
     }
 
     @Override
     @NonNull
-    public R get() {
+    public Object get() {
         return repository;
     }
 }

@@ -25,7 +25,7 @@ import android.view.View;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui.Listener> extends Fragment {
+public abstract class UiFragment<L extends Ui.Listener, R> extends Fragment {
     private final static String ARG_SAVED_INSTANCE_STATE_INSTANCE_ID = "instance id";
     private UiWrapperRepositoryProvider<R> repositoryProvider;
     private boolean isBound = false;
@@ -36,6 +36,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     @CallSuper
     public void onAttach(Context context) {
         super.onAttach(context);
+        //noinspection unchecked
         repositoryProvider = CastHelper.repositoryProvider(context);
     }
 
@@ -54,7 +55,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     private void bind(final Bundle savedInstanceState) {
-        listener = bind(repositoryProvider.get(), new BindingPayload(instanceId, savedInstanceState));
+        listener = bind(repositoryProvider.get(), BinderProvider.get(getActivity().getApplication(), instanceId, savedInstanceState));
         isBound = true;
     }
 
@@ -80,7 +81,7 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
     }
 
     private void unbind(final Bundle outState) {
-        unbind(repositoryProvider.get(), new UnbindingPayload(instanceId, outState, getActivity().isChangingConfigurations()));
+        unbind(repositoryProvider.get(), UnbinderProvider.get(getActivity().getApplication(), instanceId, outState, getActivity().isChangingConfigurations()));
         listener = null;
         isBound = false;
     }
@@ -105,9 +106,9 @@ public abstract class UiFragment<R extends BaseUiWrapperRepository, L extends Ui
         repositoryProvider = null;
     }
 
-    protected abstract L bind(@NonNull final R uiWrapperRepository, @NonNull final BindingPayload bindingPayload);
+    protected abstract L bind(@NonNull final R uiWrapperRepository, @NonNull final UiBinder binder);
 
-    protected abstract void unbind(@NonNull final R uiWrapperRepository, @NonNull final UnbindingPayload unbindingPayload);
+    protected abstract void unbind(@NonNull final R uiWrapperRepository, @NonNull final UiUnbinder binder);
 
     @SuppressWarnings("unused")
     protected final boolean hasListener() {

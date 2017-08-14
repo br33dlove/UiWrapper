@@ -19,7 +19,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
-public abstract class UiWrapperRepositoryActivity<R extends BaseUiWrapperRepository> extends AppCompatActivity implements UiWrapperRepositoryProvider {
+public abstract class UiWrapperRepositoryActivity extends AppCompatActivity implements UiWrapperRepositoryProvider {
     private final static String UI_WRAPPER_FRAGMENT_TAG = "ui wrapper repository";
 
     @Override
@@ -34,19 +34,19 @@ public abstract class UiWrapperRepositoryActivity<R extends BaseUiWrapperReposit
     private void setupUiWrapperRepositoryRetainFragment() {
         FragmentManagerHelper.addFragment(
                 getSupportFragmentManager(),
-                new UiWrapperRepositoryFragment<>(),
+                new UiWrapperRepositoryFragment(),
                 UI_WRAPPER_FRAGMENT_TAG
         );
     }
 
     @Override
     @NonNull
-    public R get() {
+    public Object get() {
         return uiWrapperRepositoryFragment().get();
     }
 
-    private UiWrapperRepositoryFragment<R> uiWrapperRepositoryFragment() {
+    private UiWrapperRepositoryFragment uiWrapperRepositoryFragment() {
         //noinspection unchecked
-        return (UiWrapperRepositoryFragment<R>) FragmentManagerHelper.fragment(getSupportFragmentManager(), UI_WRAPPER_FRAGMENT_TAG);
+        return (UiWrapperRepositoryFragment) FragmentManagerHelper.fragment(getSupportFragmentManager(), UI_WRAPPER_FRAGMENT_TAG);
     }
 }
