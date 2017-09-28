@@ -18,6 +18,31 @@ public class DefaultUnbinder implements UiUnbinder {
         this.isConfigurationChange = isConfigurationChange;
     }
 
+    public @NonNull String instanceId() {
+        return instanceId;
+    }
+
+    public void instanceId(@NonNull final String instanceId) {
+        ArgChecker.notNull(instanceId, "instanceId");
+        this.instanceId = instanceId;
+    }
+
+    public @Nullable Bundle outState() {
+        return outState;
+    }
+
+    public void outState(@Nullable final Bundle outState) {
+        this.outState = outState;
+    }
+
+    public boolean isConfigurationChange() {
+        return isConfigurationChange;
+    }
+
+    public void isConfigurationChange(boolean isConfigurationChange) {
+        this.isConfigurationChange = isConfigurationChange;
+    }
+
     @Override
     public <U, L, M extends UiModel<U>> void unbind(@NonNull final Map<String, UiWrapper<U, L, M>> uiWrapperMap) {
         ArgChecker.notNull(uiWrapperMap, "uiWrapperMap");
