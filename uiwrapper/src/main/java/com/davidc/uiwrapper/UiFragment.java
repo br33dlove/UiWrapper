@@ -25,7 +25,7 @@ import android.view.View;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-public abstract class UiFragment<L extends Ui.Listener, R> extends Fragment {
+public abstract class UiFragment<L, R> extends Fragment {
     private final static String ARG_SAVED_INSTANCE_STATE_INSTANCE_ID = "instance id";
     private UiWrapperRepositoryProvider<R> repositoryProvider;
     private boolean isBound = false;

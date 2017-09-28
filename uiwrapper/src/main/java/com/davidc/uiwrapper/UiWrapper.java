@@ -19,7 +19,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public abstract class UiWrapper<U extends Ui, L extends Ui.Listener, M extends UiModel<U>> {
+public abstract class UiWrapper<U, L, M extends UiModel<U>> {
     private final static String BUNDLE_ARG_UI_MODEL = "ui model";
     private final M uiModel;
     private boolean resourcesRegistered = false;

@@ -1,13 +1,11 @@
 package com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example;
 
-import com.davidc.uiwrapper.Ui;
-
-public interface ExampleUi extends Ui {
+public interface ExampleUi {
     void showTimeOfLastStateRecoveryText(final String text);
     void showResourceListenersCountText(final String text);
     void showNewExampleUi();
 
-    interface Listener extends Ui.Listener {
+    interface Listener {
         void onLaunchNewExampleUi(final ExampleUi ui);
     }
 }

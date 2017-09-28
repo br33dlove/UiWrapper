@@ -34,7 +34,7 @@ public class DefaultBinder implements UiBinder {
     }
 
     @Override
-    public <U extends Ui, L extends Ui.Listener, M extends UiModel<U>> L bind(@NonNull final U ui, @NonNull final Map<String, UiWrapper<U, L, M>> uiWrapperMap, @NonNull final UiWrapperProvider<U, L, M> uiWrapperProvider) {
+    public <U, L, M extends UiModel<U>> L bind(@NonNull final U ui, @NonNull final Map<String, UiWrapper<U, L, M>> uiWrapperMap, @NonNull final UiWrapperProvider<U, L, M> uiWrapperProvider) {
         ArgChecker.notNull(ui, "ui");
         ArgChecker.notNull(uiWrapperMap, "uiWrapperMap");
         ArgChecker.notNull(uiWrapperProvider, "uiWrapperProvider");

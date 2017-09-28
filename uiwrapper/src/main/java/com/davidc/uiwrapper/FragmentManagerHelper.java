@@ -24,10 +24,7 @@ final class FragmentManagerHelper {
 
     }
 
-    static boolean noFragmentBoundToView(
-        final FragmentManager fragmentManager,
-        @IdRes final int view
-    ) {
+    static boolean noFragmentBoundToView(final FragmentManager fragmentManager, @IdRes final int view) {
         return fragmentManager.findFragmentById(view) == null;
     }
 

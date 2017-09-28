@@ -19,7 +19,7 @@ public class DefaultUnbinder implements UiUnbinder {
     }
 
     @Override
-    public <U extends Ui, L extends Ui.Listener, M extends UiModel<U>> void unbind(@NonNull final Map<String, UiWrapper<U, L, M>> uiWrapperMap) {
+    public <U, L, M extends UiModel<U>> void unbind(@NonNull final Map<String, UiWrapper<U, L, M>> uiWrapperMap) {
         ArgChecker.notNull(uiWrapperMap, "uiWrapperMap");
         final UiWrapper<U, L, M> uiWrapper = uiWrapperMap.get(instanceId);
         if (uiWrapper != null) {

@@ -17,6 +17,6 @@ package com.davidc.uiwrapper;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-public interface UiModel<U extends Ui> extends Parcelable {
+public interface UiModel<U> extends Parcelable {
     void onto(@NonNull final U ui);
 }
