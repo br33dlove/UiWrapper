@@ -55,8 +55,12 @@ public abstract class UiFragment<L, R> extends Fragment {
     }
 
     private void bind(final Bundle savedInstanceState) {
-        listener = bind(repositoryProvider.get(), BinderProvider.get(getActivity().getApplication(), instanceId, savedInstanceState));
+        listener = bind(repositoryProvider.get(), uiBinder(savedInstanceState));
         isBound = true;
+    }
+
+    private UiBinder uiBinder(final Bundle savedInstanceState) {
+        return UiBinderProvider.get(getActivity().getApplication(), instanceId, savedInstanceState);
     }
 
     @Override
@@ -81,9 +85,13 @@ public abstract class UiFragment<L, R> extends Fragment {
     }
 
     private void unbind(final Bundle outState) {
-        unbind(repositoryProvider.get(), UnbinderProvider.get(getActivity().getApplication(), instanceId, outState, getActivity().isChangingConfigurations()));
+        unbind(repositoryProvider.get(), uiUnbinder(outState));
         listener = null;
         isBound = false;
+    }
+
+    private UiUnbinder uiUnbinder(final Bundle outState) {
+        return UiUnbinderProvider.get(getActivity().getApplication(), instanceId, outState, getActivity().isChangingConfigurations());
     }
 
     @Override

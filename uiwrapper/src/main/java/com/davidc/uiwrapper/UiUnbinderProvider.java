@@ -3,9 +3,9 @@ package com.davidc.uiwrapper;
 import android.app.Application;
 import android.os.Bundle;
 
-class UnbinderProvider {
+class UiUnbinderProvider {
 
-    private UnbinderProvider() {
+    private UiUnbinderProvider() {
 
     }
 

@@ -3,9 +3,9 @@ package com.davidc.uiwrapper;
 import android.app.Application;
 import android.os.Bundle;
 
-class BinderProvider {
+class UiBinderProvider {
 
-    private BinderProvider() {
+    private UiBinderProvider() {
 
     }
 
