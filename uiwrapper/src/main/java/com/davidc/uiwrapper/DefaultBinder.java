@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class DefaultBinder implements UiBinder {
     private String instanceId;
     private Bundle savedInstanceState;

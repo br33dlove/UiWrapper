@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class DefaultUnbinder implements UiUnbinder {
     private String instanceId;
     private Bundle outState;
