@@ -55,7 +55,7 @@ public abstract class SingleContentContainerWithAppBarActivity extends UiWrapper
     protected abstract Fragment initialFragment();
 
     @IdRes
-    private int getContentFragmentViewContainer() {
+    protected int getContentFragmentViewContainer() {
         return R.id.content;
     }
 
