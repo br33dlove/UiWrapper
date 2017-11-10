@@ -31,7 +31,7 @@ public abstract class SingleContentContainerWithAppBarActivity extends UiWrapper
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_bar_with_content);
         setupToolbar();
-        addInitialFragment();
+        addInitialFragmentIfNone();
     }
 
     private void setupToolbar() {
@@ -44,15 +44,17 @@ public abstract class SingleContentContainerWithAppBarActivity extends UiWrapper
 
     protected abstract void setupActionBar(@NonNull final ActionBar actionBar);
 
-    private void addInitialFragment() {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        if (FragmentManagerHelper.noFragmentBoundToView(fragmentManager, getContentFragmentViewContainer())) {
-            FragmentManagerHelper.addFragment(fragmentManager, initialFragment(), getContentFragmentViewContainer());
+    private void addInitialFragmentIfNone() {
+        if (FragmentManagerHelper.noFragmentBoundToView(getSupportFragmentManager(), getContentFragmentViewContainer())) {
+            addInitialFragment();
         }
     }
 
-    @NonNull
-    protected abstract Fragment initialFragment();
+    protected abstract void addInitialFragment();
+
+    protected void addFragment(final Fragment fragment, final String tag) {
+        FragmentManagerHelper.addFragment(getSupportFragmentManager(), fragment, getContentFragmentViewContainer(), tag);
+    }
 
     @IdRes
     protected int getContentFragmentViewContainer() {

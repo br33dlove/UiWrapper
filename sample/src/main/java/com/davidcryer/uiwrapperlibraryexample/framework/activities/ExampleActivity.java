@@ -2,17 +2,16 @@ package com.davidcryer.uiwrapperlibraryexample.framework.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 
 import com.davidc.uiwrapper.SingleContentContainerWithAppBarActivity;
 import com.davidcryer.uiwrapperlibraryexample.androidhelpers.DrawableHelper;
 import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.ExampleFragmentNavigator;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.UiWrapperRepository;
 import com.davidcryer.uiwrapperlibraryexample.ui.ExampleFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
 
 public class ExampleActivity extends SingleContentContainerWithAppBarActivity implements ExampleFragmentNavigator {
+    private final static String FRAGMENT_TAG_EXAMPLE = "example";
     private final static String ARG_INTENT_SHOW_HOME_AS_BACK = "show home as back";
 
     @Override
@@ -24,9 +23,8 @@ public class ExampleActivity extends SingleContentContainerWithAppBarActivity im
     }
 
     @Override
-    @NonNull
-    protected Fragment initialFragment() {
-        return ExampleFragment.newInstance();
+    protected void addInitialFragment() {
+        addFragment(ExampleFragment.newInstance(), FRAGMENT_TAG_EXAMPLE);
     }
 
     @Override

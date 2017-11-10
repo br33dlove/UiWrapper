@@ -39,11 +39,12 @@ final class FragmentManagerHelper {
     static void addFragment(
             final FragmentManager fragmentManager,
             final Fragment fragment,
-            @IdRes final int view
+            @IdRes final int view,
+            final String tag
     ) {
         fragmentManager
                 .beginTransaction()
-                .add(view, fragment)
+                .add(view, fragment, tag)
                 .addToBackStack(null)
                 .commit();
     }
