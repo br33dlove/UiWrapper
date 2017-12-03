@@ -87,7 +87,6 @@ public class ExampleFragment extends UiFragment<ExampleUi.Listener, UiWrapperRep
 
     @Override
     public void showNewExampleFragment() {
-
         if (navigator != null) {
             navigator.showNewExampleFragment();
         }
