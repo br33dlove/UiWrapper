@@ -28,7 +28,22 @@ public class ExampleActivity extends SingleContentContainerWithAppBarActivity im
     }
 
     @Override
-    public void showNewExampleUi() {
+    public void showNewExampleActivity() {
         startActivity(new Intent(this, ExampleActivity.class).putExtra(ARG_INTENT_SHOW_HOME_AS_BACK, true));
+    }
+
+    @Override
+    public void showNewExampleFragment() {
+        replaceWithNewExampleFragment();
+    }
+
+    private void replaceWithNewExampleFragment() {
+        final ExampleFragment fragment = new ExampleFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_right, R.anim.exit_left, R.anim.enter_left, R.anim.exit_right)
+                .replace(getContentFragmentViewContainer(), fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -21,6 +21,7 @@ public class ExampleFragment extends UiFragment<ExampleUi.Listener, UiWrapperRep
     private ExampleFragmentNavigator navigator;
     private TextView resourceListenersCountTextView;
     private TextView timeOfLastStateRecoveryTextView;
+    private TextView buttonClickCounterTextView;
 
     public static ExampleFragment newInstance() {
         return new ExampleFragment();
@@ -38,15 +39,26 @@ public class ExampleFragment extends UiFragment<ExampleUi.Listener, UiWrapperRep
         final View view = inflater.inflate(R.layout.fragment_example, container, false);
         resourceListenersCountTextView = view.findViewById(R.id.resourceListenersCount);
         timeOfLastStateRecoveryTextView = view.findViewById(R.id.timeOfLastStateRecovery);
-        view.findViewById(R.id.newExampleUiButton).setOnClickListener(newExampleUiButtonOnClickListener);
+        buttonClickCounterTextView = view.findViewById(R.id.buttonClickCounter);
+        view.findViewById(R.id.newExampleActivityButton).setOnClickListener(newExampleActivityButtonOnClickListener);
+        view.findViewById(R.id.newExampleFragmentButton).setOnClickListener(newExampleFragmentButtonOnClickListener);
         return view;
     }
 
-    private final View.OnClickListener newExampleUiButtonOnClickListener = new View.OnClickListener() {
+    private final View.OnClickListener newExampleActivityButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (hasListener()) {
-                listener().onLaunchNewExampleUi(ExampleFragment.this);
+                listener().onClickNewExampleActivity(ExampleFragment.this);
+            }
+        }
+    };
+
+    private final View.OnClickListener newExampleFragmentButtonOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (hasListener()) {
+                listener().onClickNewExampleFragment(ExampleFragment.this);
             }
         }
     };
@@ -62,9 +74,22 @@ public class ExampleFragment extends UiFragment<ExampleUi.Listener, UiWrapperRep
     }
 
     @Override
-    public void showNewExampleUi() {
+    public void showButtonClickCountText(String text) {
+        buttonClickCounterTextView.setText(text);
+    }
+
+    @Override
+    public void showNewExampleActivity() {
         if (navigator != null) {
-            navigator.showNewExampleUi();
+            navigator.showNewExampleActivity();
+        }
+    }
+
+    @Override
+    public void showNewExampleFragment() {
+
+        if (navigator != null) {
+            navigator.showNewExampleFragment();
         }
     }
 

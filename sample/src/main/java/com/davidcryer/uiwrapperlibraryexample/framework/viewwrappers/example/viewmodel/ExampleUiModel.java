@@ -5,4 +5,5 @@ import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.Exa
 
 public interface ExampleUiModel extends UiModel<ExampleUi> {
     void showResourceListenersCount(final ExampleUi ui, final int resourceListenersCount);
+    void incrementButtonClickCounter(final ExampleUi ui);
 }

@@ -10,33 +10,33 @@ import java.util.Date;
 import java.util.Locale;
 
 class ExampleUiModelImpl implements ExampleUiModel {
+    private final static String FORMAT_BUTTON_CLICK_COUNTER = "Button click count: %1$s";
+    private final static String FORMAT_RESOURCE_LISTENERS = "Number of resource listeners: %s";
+    private final static String FORMAT_LAST_RECOVERY = "State last recovered on: %s";
+    private final static String NO_LAST_RECOVERY = "State not yet recovered";
+    private final static String SDF_LAST_RECOVERY = "EEE, d MMM yyyy HH:mm:ss";
     private final long timeOfLastStateRecovery;
     private int resourceListenersCount;
+    private int buttonClickCount;
 
-    ExampleUiModelImpl(final long timeOfLastStateRecovery, final int resourceListenersCount) {
+    public ExampleUiModelImpl(long timeOfLastStateRecovery, int resourceListenersCount, int buttonClickCount) {
         this.timeOfLastStateRecovery = timeOfLastStateRecovery;
         this.resourceListenersCount = resourceListenersCount;
-    }
-
-    private ExampleUiModelImpl(final Parcel parcel) {
-        timeOfLastStateRecovery = System.currentTimeMillis();
-        resourceListenersCount = parcel.readInt();
+        this.buttonClickCount = buttonClickCount;
     }
 
     @Override
     public void onto(@NonNull ExampleUi ui) {
         ui.showResourceListenersCountText(resourceListenersCountText(resourceListenersCount));
         ui.showTimeOfLastStateRecoveryText(timeOfLastStateRecoveryText(timeOfLastStateRecovery));
+        ui.showButtonClickCountText(String.format(FORMAT_BUTTON_CLICK_COUNTER, buttonClickCount));
     }
 
     private static String timeOfLastStateRecoveryText(final long timeOfLastStateRecovery) {
         if (timeOfLastStateRecovery >= 0) {
-            return String.format(
-                    "State last recovered on: %s",
-                    new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.getDefault()).format(new Date(timeOfLastStateRecovery))
-            );
+            return String.format(FORMAT_LAST_RECOVERY, new SimpleDateFormat(SDF_LAST_RECOVERY, Locale.getDefault()).format(new Date(timeOfLastStateRecovery)));
         } else {
-            return "State not yet recovered";
+            return NO_LAST_RECOVERY;
         }
     }
 
@@ -49,7 +49,14 @@ class ExampleUiModelImpl implements ExampleUiModel {
     }
 
     private static String resourceListenersCountText(final int resourceListenersCount) {
-        return String.format("Number of resource listeners: %s", resourceListenersCount);
+        return String.format(FORMAT_RESOURCE_LISTENERS, resourceListenersCount);
+    }
+
+    @Override
+    public void incrementButtonClickCounter(ExampleUi ui) {
+        if (ui != null) {
+            ui.showButtonClickCountText(String.format(FORMAT_BUTTON_CLICK_COUNTER, ++buttonClickCount));
+        }
     }
 
     @Override
@@ -59,18 +66,26 @@ class ExampleUiModelImpl implements ExampleUiModel {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(resourceListenersCount);
+        dest.writeLong(this.timeOfLastStateRecovery);
+        dest.writeInt(this.resourceListenersCount);
+        dest.writeInt(this.buttonClickCount);
     }
 
-    final static Creator<ExampleUiModel> CREATOR = new Creator<ExampleUiModel>() {
+    private ExampleUiModelImpl(Parcel in) {
+        this.timeOfLastStateRecovery = in.readLong();
+        this.resourceListenersCount = in.readInt();
+        this.buttonClickCount = in.readInt();
+    }
+
+    public static final Creator<ExampleUiModelImpl> CREATOR = new Creator<ExampleUiModelImpl>() {
         @Override
-        public ExampleUiModel createFromParcel(Parcel source) {
+        public ExampleUiModelImpl createFromParcel(Parcel source) {
             return new ExampleUiModelImpl(source);
         }
 
         @Override
-        public ExampleUiModel[] newArray(int size) {
-            return new ExampleUiModel[size];
+        public ExampleUiModelImpl[] newArray(int size) {
+            return new ExampleUiModelImpl[size];
         }
     };
 }

@@ -15,17 +15,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/buttonClickCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/newExampleUiButton"
+        android:id="@+id/newExampleActivityButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
-        android:text="@string/view.example.button.new_example_view" />
+        android:text="@string/view.example.button.new_example_activity" />
+
+    <Button
+        android:id="@+id/newExampleFragmentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:text="@string/view.example.button.new_example_fragment" />
 
 </LinearLayout>

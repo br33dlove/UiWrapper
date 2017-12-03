@@ -3,9 +3,12 @@ package com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example;
 public interface ExampleUi {
     void showTimeOfLastStateRecoveryText(final String text);
     void showResourceListenersCountText(final String text);
-    void showNewExampleUi();
+    void showButtonClickCountText(final String text);
+    void showNewExampleActivity();
+    void showNewExampleFragment();
 
     interface Listener {
-        void onLaunchNewExampleUi(final ExampleUi ui);
+        void onClickNewExampleActivity(final ExampleUi ui);
+        void onClickNewExampleFragment(final ExampleUi ui);
     }
 }

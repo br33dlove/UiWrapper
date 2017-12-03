@@ -45,8 +45,15 @@ public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, E
     protected ExampleUi.Listener uiListener() {
         return new ExampleUi.Listener() {
             @Override
-            public void onLaunchNewExampleUi(ExampleUi ui) {
-                ui.showNewExampleUi();
+            public void onClickNewExampleActivity(ExampleUi ui) {
+                ui.showNewExampleActivity();
+                uiModel().incrementButtonClickCounter(ui);
+            }
+
+            @Override
+            public void onClickNewExampleFragment(ExampleUi ui) {
+                ui.showNewExampleFragment();
+                uiModel().incrementButtonClickCounter(ui);
             }
         };
     }
