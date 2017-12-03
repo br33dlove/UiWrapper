@@ -19,7 +19,7 @@ class ExampleUiModelImpl implements ExampleUiModel {
     private int resourceListenersCount;
     private int buttonClickCount;
 
-    public ExampleUiModelImpl(long timeOfLastStateRecovery, int resourceListenersCount, int buttonClickCount) {
+    ExampleUiModelImpl(long timeOfLastStateRecovery, int resourceListenersCount, int buttonClickCount) {
         this.timeOfLastStateRecovery = timeOfLastStateRecovery;
         this.resourceListenersCount = resourceListenersCount;
         this.buttonClickCount = buttonClickCount;
