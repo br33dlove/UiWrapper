@@ -1,10 +1,10 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example;
+package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example;
 
 import android.os.Bundle;
 
 import com.davidc.uiwrapper.UiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.viewmodel.ExampleUiModel;
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.viewmodel.ExampleUiModelFactory;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModel;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModelFactory;
 import com.davidcryer.uiwrapperlibraryexample.model.Resource;
 
 public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> {
@@ -22,9 +22,9 @@ public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, E
     public static ExampleUiWrapper savedElseNewInstance(
             final Resource resource,
             final ExampleUiModelFactory uiModelFactory,
-            final Bundle savedInstanceState
+            final Bundle savedState
     ) {
-        final ExampleUiModel uiModel = savedUiModel(savedInstanceState);
+        final ExampleUiModel uiModel = savedUiModel(savedState);
         return uiModel == null ? newInstance(resource, uiModelFactory) : new ExampleUiWrapper(resource, uiModel);
     }
 

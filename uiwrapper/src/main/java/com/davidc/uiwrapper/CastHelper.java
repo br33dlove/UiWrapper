@@ -14,27 +14,20 @@
 
 package com.davidc.uiwrapper;
 
-import android.content.Context;
-
 final class CastHelper {
+    private final static String EXCEPTION_MESSAGE_FORMAT = "%1$s must implement %2$s";
 
-    private CastHelper() {
+    private CastHelper() {}
 
-    }
-
-    static UiWrapperRepositoryFactory repositoryFactory(final Context context) {
+    static <T> T cast(final Object o, final Class<T> tClass) {
         try {
-            return ((UiWrapperRepositoryFactory) context);
+            return tClass.cast(o);
         } catch (ClassCastException cce) {
-            throw new ClassCastException(context.getClass().getSimpleName() + " must implement UiWrapperRepositoryFactory");
+            throw cce(o.getClass().getName(), tClass.getName());
         }
     }
 
-    static UiWrapperRepositoryProvider repositoryProvider(final Context context) {
-        try {
-            return (UiWrapperRepositoryProvider) context;
-        } catch (ClassCastException cce) {
-            throw new ClassCastException(context.getClass().getSimpleName() + " must implement UiWrapperRepositoryProvider");
-        }
+    private static ClassCastException cce(final String objName, final String className) {
+        return new ClassCastException(String.format(EXCEPTION_MESSAGE_FORMAT, objName, className));
     }
 }

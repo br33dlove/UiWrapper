@@ -1,9 +1,9 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.viewmodel;
+package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel;
 
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 
-import com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.ExampleUi;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

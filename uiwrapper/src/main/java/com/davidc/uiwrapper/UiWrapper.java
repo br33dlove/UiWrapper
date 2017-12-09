@@ -30,13 +30,12 @@ public abstract class UiWrapper<U, L, M extends UiModel<U>> {
         this.uiModel = uiModel;
     }
 
-    final L bind(final U ui) {
+    final void bind(final U ui) {
         if (!resourcesRegistered) {
             registerResources();
         }
         this.ui = ui;
         uiModel.onto(ui);
-        return uiListener();
     }
 
     @CallSuper

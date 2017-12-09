@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.viewwrappers.example.viewmodel;
+package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel;
 
 public class ExampleUiModelFactory {
     private final static long DEFAULT_TIME_OF_LAST_STATE_RECOVERY = -1;

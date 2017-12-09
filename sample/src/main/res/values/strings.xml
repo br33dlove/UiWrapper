@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ViewWrapperLibraryExample</string>
+    <string name="app_name">UiWrapper Example</string>
 
     <string name="view.example.button.new_example_activity">Start new example activity</string>
     <string name="view.example.button.new_example_fragment">Start new example fragment</string>

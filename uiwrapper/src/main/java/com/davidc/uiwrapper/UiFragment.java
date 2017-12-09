@@ -14,117 +14,69 @@
 
 package com.davidc.uiwrapper;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import java.util.UUID;
-
 @SuppressWarnings("unused")
-public abstract class UiFragment<L, R> extends Fragment {
-    private final static String ARG_SAVED_INSTANCE_STATE_INSTANCE_ID = "instance id";
-    private UiWrapperRepositoryProvider<R> repositoryProvider;
-    private boolean isBound = false;
-    private L listener;
-    private String instanceId;
+public abstract class UiFragment<U, L> extends Fragment {
+    private UiWrapper<U, L, ?> wrapper;
 
     @Override
     @CallSuper
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        //noinspection unchecked
-        repositoryProvider = CastHelper.repositoryProvider(context);
+    public void onCreate(@Nullable Bundle savedState) {
+        super.onCreate(savedState);
+        wrapper = uiWrapper(savedState);
     }
+
+    protected abstract UiWrapper<U, L, ?> uiWrapper(@Nullable Bundle savedState);
 
     @Override
     @CallSuper
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        instanceId = savedInstanceState == null ? UUID.randomUUID().toString() : savedInstanceState.getString(ARG_SAVED_INSTANCE_STATE_INSTANCE_ID);
+    public void onViewCreated(View view, @Nullable Bundle savedState) {
+        super.onViewCreated(view, savedState);
+        wrapper.bind(ui());
     }
 
-    @Override
-    @CallSuper
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        bind(savedInstanceState);
-    }
-
-    private void bind(final Bundle savedInstanceState) {
-        listener = bind(repositoryProvider.get(), uiBinder(savedInstanceState));
-        isBound = true;
-    }
-
-    private UiBinder uiBinder(final Bundle savedInstanceState) {
-        return UiBinderProvider.get(getActivity().getApplication(), instanceId, savedInstanceState);
-    }
+    protected abstract U ui();
 
     @Override
     @CallSuper
     public void onStart() {
         super.onStart();
-        bindIfUnbound(null);
-    }
-
-    private void bindIfUnbound(final Bundle savedInstanceState) {
-        if (!isBound) {
-            bind(savedInstanceState);
-        }
+        wrapper.registerResources();
     }
 
     @Override
     @CallSuper
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(ARG_SAVED_INSTANCE_STATE_INSTANCE_ID, instanceId);
-        unbind(outState);
-    }
-
-    private void unbind(final Bundle outState) {
-        unbind(repositoryProvider.get(), uiUnbinder(outState));
-        listener = null;
-        isBound = false;
-    }
-
-    private UiUnbinder uiUnbinder(final Bundle outState) {
-        return UiUnbinderProvider.get(getActivity().getApplication(), instanceId, outState, getActivity().isChangingConfigurations());
+        wrapper.saveState(outState);
     }
 
     @Override
     @CallSuper
     public void onStop() {
         super.onStop();
-        unbindIfBound(null);
-    }
-
-    private void unbindIfBound(final Bundle outState) {
-        if (isBound) {
-            unbind(outState);
-        }
+        wrapper.unregisterResources();
     }
 
     @Override
-    @CallSuper
-    public void onDetach() {
-        super.onDetach();
-        repositoryProvider = null;
+    public void onDestroyView() {
+        super.onDestroyView();
+        wrapper.unbind();
     }
 
-    protected abstract L bind(@NonNull final R uiWrapperRepository, @NonNull final UiBinder binder);
-
-    protected abstract void unbind(@NonNull final R uiWrapperRepository, @NonNull final UiUnbinder binder);
-
-    @SuppressWarnings("unused")
-    protected final boolean hasListener() {
-        return listener != null;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        wrapper = null;
     }
 
     @SuppressWarnings("unused")
     protected final L listener() {
-        return listener;
+        return wrapper.uiListener();
     }
 }
