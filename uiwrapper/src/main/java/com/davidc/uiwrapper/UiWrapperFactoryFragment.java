@@ -2,6 +2,7 @@ package com.davidc.uiwrapper;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 
 public abstract class UiWrapperFactoryFragment<U, L, F> extends UiFragment<U, L> {
@@ -20,14 +21,9 @@ public abstract class UiWrapperFactoryFragment<U, L, F> extends UiFragment<U, L>
     }
 
     @Override
-    protected UiWrapper<U, L, ?> uiWrapper(@Nullable Bundle savedState) {
+    protected final UiWrapper<U, L, ?> uiWrapper(@Nullable Bundle savedState) {
         //noinspection unchecked
         return uiWrapper((F) factoryProvider.getUiWrapperFactory(), savedState);
-    }
-
-    @Override
-    protected U ui() {
-        return null;
     }
 
     protected abstract UiWrapper<U, L, ?> uiWrapper(F uiWrapperFactory, @Nullable Bundle savedState);
