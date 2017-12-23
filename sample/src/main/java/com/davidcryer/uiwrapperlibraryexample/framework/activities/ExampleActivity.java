@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 
+import com.davidcryer.simpleactivities.SimpleAppBarActivity;
 import com.davidcryer.uiwrapperlibraryexample.androidhelpers.DrawableHelper;
 import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.ExampleFragmentNavigator;
 import com.davidcryer.uiwrapperlibraryexample.ui.ExampleFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
 
-public class ExampleActivity extends SimpleActivity implements ExampleFragmentNavigator {
+public class ExampleActivity extends SimpleAppBarActivity implements ExampleFragmentNavigator {
     private final static String FRAGMENT_TAG_EXAMPLE = "example";
     private final static String ARG_INTENT_SHOW_HOME_AS_BACK = "show home as back";
 
@@ -23,7 +24,7 @@ public class ExampleActivity extends SimpleActivity implements ExampleFragmentNa
 
     @Override
     protected void addInitialFragment() {
-        addFragment(ExampleFragment.newInstance(), FRAGMENT_TAG_EXAMPLE);
+        add(FRAGMENT_TAG_EXAMPLE, ExampleFragment::newInstance);
     }
 
     @Override
