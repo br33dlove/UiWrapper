@@ -38,12 +38,6 @@ public class ExampleActivity extends SimpleAppBarActivity implements ExampleFrag
     }
 
     private void replaceWithNewExampleFragment() {
-        final ExampleFragment fragment = new ExampleFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.enter_right, R.anim.exit_left, R.anim.enter_left, R.anim.exit_right)
-                .replace(getContentFragmentViewContainer(), fragment)
-                .addToBackStack(null)
-                .commit();
+        replace(FRAGMENT_TAG_EXAMPLE, ExampleFragment::new, anims(R.anim.enter_right, R.anim.exit_left), anims(R.anim.enter_left, R.anim.exit_right));
     }
 }

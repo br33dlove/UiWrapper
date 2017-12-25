@@ -30,7 +30,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
-    compile 'com.davidcryer.simpleactivities:simpleactivities:0.0.2'
+    compile 'com.davidcryer.simpleactivities:simpleactivities:0.0.3'
     compile project (path: ':uiwrapper')
     testCompile 'junit:junit:4.12'
 }
