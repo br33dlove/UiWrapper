@@ -11,7 +11,6 @@ import com.davidcryer.uiwrapperlibraryexample.ui.ExampleFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
 
 public class ExampleActivity extends SimpleAppBarActivity implements ExampleFragmentNavigator {
-    private final static String FRAGMENT_TAG_EXAMPLE = "example";
     private final static String ARG_INTENT_SHOW_HOME_AS_BACK = "show home as back";
 
     @Override
@@ -24,7 +23,7 @@ public class ExampleActivity extends SimpleAppBarActivity implements ExampleFrag
 
     @Override
     protected void addInitialFragment() {
-        add(FRAGMENT_TAG_EXAMPLE, ExampleFragment::newInstance);
+        add(null, ExampleFragment::newInstance);
     }
 
     @Override
@@ -38,6 +37,6 @@ public class ExampleActivity extends SimpleAppBarActivity implements ExampleFrag
     }
 
     private void replaceWithNewExampleFragment() {
-        replace(FRAGMENT_TAG_EXAMPLE, ExampleFragment::new, anims(R.anim.enter_right, R.anim.exit_left), anims(R.anim.enter_left, R.anim.exit_right));
+        replace(null, ExampleFragment::new, anims(R.anim.enter_right, R.anim.exit_left), anims(R.anim.enter_left, R.anim.exit_right));
     }
 }
