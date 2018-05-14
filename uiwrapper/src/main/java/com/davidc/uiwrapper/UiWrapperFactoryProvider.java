@@ -1,5 +1,7 @@
 package com.davidc.uiwrapper;
 
+import android.support.annotation.NonNull;
+
 public interface UiWrapperFactoryProvider<F> {
-    F getUiWrapperFactory();
+    @NonNull F getUiWrapperFactory();
 }

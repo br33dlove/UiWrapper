@@ -1,6 +1,7 @@
 package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.davidc.uiwrapper.UiWrapper;
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModel;
@@ -41,6 +42,7 @@ public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, E
         resource.register(resourceListener);
     }
 
+    @NonNull
     @Override
     protected ExampleUi.Listener uiListener() {
         return new ExampleUi.Listener() {

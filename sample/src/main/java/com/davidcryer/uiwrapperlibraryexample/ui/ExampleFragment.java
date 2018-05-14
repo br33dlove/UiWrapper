@@ -2,6 +2,7 @@ package com.davidcryer.uiwrapperlibraryexample.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, Example
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_example, container, false);
         resourceListenersCountTextView = view.findViewById(R.id.resourceListenersCount);
         timeOfLastStateRecoveryTextView = view.findViewById(R.id.timeOfLastStateRecovery);
@@ -63,11 +64,13 @@ public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, Example
         navigator = null;
     }
 
+    @NonNull
     @Override
-    protected UiWrapper<ExampleUi, ExampleUi.Listener, ?> uiWrapper(UiWrapperFactory uiWrapperFactory, @Nullable Bundle savedState) {
+    protected UiWrapper<ExampleUi, ExampleUi.Listener, ?> uiWrapper(@NonNull UiWrapperFactory uiWrapperFactory, @Nullable Bundle savedState) {
         return uiWrapperFactory.createExampleUiWrapper(savedState);
     }
 
+    @NonNull
     @Override
     protected ExampleUi ui() {
         return ui;

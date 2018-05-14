@@ -18,5 +18,5 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 public interface UiModel<U> extends Parcelable {
-    void onto(@NonNull final U ui);
+    void onto(@NonNull U ui);
 }

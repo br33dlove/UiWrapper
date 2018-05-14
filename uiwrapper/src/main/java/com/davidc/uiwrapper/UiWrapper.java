@@ -23,14 +23,14 @@ public abstract class UiWrapper<U, L, M extends UiModel<U>> {
     private final static String BUNDLE_ARG_UI_MODEL = "ui model";
     private final M uiModel;
     private boolean resourcesRegistered = false;
-    private U ui;
+    private U ui = null;
 
     protected UiWrapper(@NonNull final M uiModel) {
-        ArgChecker.notNull(uiModel, "uiModel");
+        ArgChecker.notNull(uiModel, UiWrapper.class, "uiModel");
         this.uiModel = uiModel;
     }
 
-    final void bind(final U ui) {
+    final void bind(@NonNull final U ui) {
         if (!resourcesRegistered) {
             registerResources();
         }
@@ -43,13 +43,14 @@ public abstract class UiWrapper<U, L, M extends UiModel<U>> {
         resourcesRegistered = true;
     }
 
+    @NonNull
     protected abstract L uiListener();
 
     final void unbind() {
         ui = null;
     }
 
-    final void saveState(final Bundle outState) {
+    final void saveState(@NonNull final Bundle outState) {
         outState.putParcelable(BUNDLE_ARG_UI_MODEL, uiModel);
     }
 

@@ -14,17 +14,25 @@
 
 package com.davidc.uiwrapper;
 
+import android.support.annotation.NonNull;
+
 final class ArgChecker {
+    private final static String FORMAT_CLASS_VAR_NAME = "%1$s.%2$s";
+
 
     private ArgChecker() {}
 
-    static void notNull(final Object o, final String varName) {
+    static void notNull(final Object o, @NonNull final Class clazz, @NonNull final String varName) {
         if (o == null) {
-            throw new IllegalArgumentException(defaultExceptionMessage(varName));
+            throw new IllegalArgumentException(defaultExceptionMessage(classVarName(clazz.getSimpleName(), varName)));
         }
     }
 
-    private static String defaultExceptionMessage(final String varName) {
-        return String.format("%1$s cannot be null", varName);
+    private static String classVarName(@NonNull final String className, @NonNull final String varName) {
+        return String.format(FORMAT_CLASS_VAR_NAME, className, varName);
+    }
+
+    private static String defaultExceptionMessage(@NonNull final String classVarName) {
+        return String.format("%1$s cannot be null", classVarName);
     }
 }

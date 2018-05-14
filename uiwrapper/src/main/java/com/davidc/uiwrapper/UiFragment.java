@@ -16,6 +16,7 @@ package com.davidc.uiwrapper;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -29,17 +30,20 @@ public abstract class UiFragment<U, L> extends Fragment {
     public void onCreate(@Nullable Bundle savedState) {
         super.onCreate(savedState);
         wrapper = uiWrapper(savedState);
+        ArgChecker.notNull(wrapper, UiFragment.class, "wrapper");
     }
 
+    @NonNull
     protected abstract UiWrapper<U, L, ?> uiWrapper(@Nullable Bundle savedState);
 
     @Override
     @CallSuper
-    public void onViewCreated(View view, @Nullable Bundle savedState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedState) {
         super.onViewCreated(view, savedState);
         wrapper.bind(ui());
     }
 
+    @NonNull
     protected abstract U ui();
 
     @Override
@@ -51,7 +55,7 @@ public abstract class UiFragment<U, L> extends Fragment {
 
     @Override
     @CallSuper
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         wrapper.saveState(outState);
     }
@@ -76,6 +80,7 @@ public abstract class UiFragment<U, L> extends Fragment {
     }
 
     @SuppressWarnings("unused")
+    @NonNull
     protected final L listener() {
         return wrapper.uiListener();
     }
