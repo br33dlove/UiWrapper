@@ -7,66 +7,59 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 
-public abstract class UiDialogFragment<U, L> extends DialogFragment {
-    private UiWrapper<U, L, ?> wrapper;
+public abstract class UiDialogFragment<U, L> extends DialogFragment implements UiFragmentContract<U, L> {
+    private final UiFragmentCore<U, L> core = new UiFragmentCore<>(this);
 
     @Override
     @CallSuper
     public void onCreate(@Nullable Bundle savedState) {
         super.onCreate(savedState);
-        wrapper = uiWrapper(savedState);
-        ArgChecker.notNull(wrapper, UiFragment.class, "wrapper");
+        core.onCreate(savedState);
     }
-
-    @NonNull
-    protected abstract UiWrapper<U, L, ?> uiWrapper(@Nullable Bundle savedState);
 
     @Override
     @CallSuper
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedState) {
         super.onViewCreated(view, savedState);
-        wrapper.bind(ui());
+        core.onViewCreated();
     }
-
-    @NonNull
-    protected abstract U ui();
 
     @Override
     @CallSuper
     public void onStart() {
         super.onStart();
-        wrapper.registerResources();
+        core.onStart();
     }
 
     @Override
     @CallSuper
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        wrapper.saveState(outState);
+        core.onSaveInstanceState(outState);
     }
 
     @Override
     @CallSuper
     public void onStop() {
         super.onStop();
-        wrapper.unregisterResources();
+        core.onStop();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        wrapper.unbind();
+        core.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        wrapper = null;
+        core.onDestroy();
     }
 
     @SuppressWarnings("unused")
     @NonNull
     protected final L listener() {
-        return wrapper.uiListener();
+        return core.listener();
     }
 }

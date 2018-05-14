@@ -66,13 +66,13 @@ public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, Example
 
     @NonNull
     @Override
-    protected UiWrapper<ExampleUi, ExampleUi.Listener, ?> uiWrapper(@NonNull UiWrapperFactory uiWrapperFactory, @Nullable Bundle savedState) {
+    public UiWrapper<ExampleUi, ExampleUi.Listener, ?> uiWrapper(@NonNull UiWrapperFactory uiWrapperFactory, @Nullable Bundle savedState) {
         return uiWrapperFactory.createExampleUiWrapper(savedState);
     }
 
     @NonNull
     @Override
-    protected ExampleUi ui() {
+    public ExampleUi ui() {
         return ui;
     }
 

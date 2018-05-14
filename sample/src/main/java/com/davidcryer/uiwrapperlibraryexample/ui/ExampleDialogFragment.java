@@ -20,13 +20,13 @@ public class ExampleDialogFragment extends UiWrapperFactoryDialogFragment<Exampl
 
     @NonNull
     @Override
-    protected UiWrapper<ExampleDialogUi, ExampleDialogUi.Listener, ?> uiWrapper(@NonNull UiWrapperFactory uiWrapperFactory, @Nullable Bundle savedState) {
+    public UiWrapper<ExampleDialogUi, ExampleDialogUi.Listener, ?> uiWrapper(@NonNull UiWrapperFactory uiWrapperFactory, @Nullable Bundle savedState) {
         return uiWrapperFactory.createExampleDialogUiWrapper(savedState);
     }
 
     @NonNull
     @Override
-    protected ExampleDialogUi ui() {
+    public ExampleDialogUi ui() {
         return ui;
     }
 

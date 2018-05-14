@@ -5,30 +5,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public abstract class UiWrapperFactoryDialogFragment<U, L, F> extends UiDialogFragment<U, L> {
-    private UiWrapperFactoryProvider factoryProvider;
+public abstract class UiWrapperFactoryDialogFragment<U, L, F> extends UiDialogFragment<U, L> implements UiWrapperFactoryContract<U, L, F> {
+    private final UiWrapperFactoryCore<U, L, F> core = new UiWrapperFactoryCore<>(this);
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        factoryProvider = CastHelper.cast(context.getApplicationContext(), UiWrapperFactoryProvider.class);
+        core.onAttach(context);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        factoryProvider = null;
+        core.onDetach();
     }
 
     @NonNull
     @Override
-    protected final UiWrapper<U, L, ?> uiWrapper(@Nullable Bundle savedState) {
-        //noinspection unchecked
-        final F factory = (F) factoryProvider.getUiWrapperFactory();
-        ArgChecker.notNull(factory, UiWrapperFactoryFragment.class, "getUiWrapperFactory()");
-        return uiWrapper(factory, savedState);
+    public final UiWrapper<U, L, ?> uiWrapper(@Nullable Bundle savedState) {
+        return core.uiWrapper(savedState);
     }
-
-    @NonNull
-    protected abstract UiWrapper<U, L, ?> uiWrapper(@NonNull F uiWrapperFactory, @Nullable Bundle savedState);
 }
