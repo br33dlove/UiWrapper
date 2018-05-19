@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 
 import com.davidc.uiwrapper.UiModel;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

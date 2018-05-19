@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.davidcryer.uiwrapperlibraryexample.R;
 
 public class FragmentResourceInfoView extends ResourceInfoView {
-    private TextView buttonClickCounterTextView;
+    private final TextView buttonClickCounterTextView;
 
     public FragmentResourceInfoView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);

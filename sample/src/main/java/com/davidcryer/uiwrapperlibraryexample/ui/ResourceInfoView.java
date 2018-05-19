@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.davidcryer.uiwrapperlibraryexample.R;
 
 public class ResourceInfoView extends LinearLayout {
-    private TextView resourceListenersCountTextView;
-    private TextView timeOfLastStateRecoveryTextView;
+    private final TextView resourceListenersCountTextView;
+    private final TextView timeOfLastStateRecoveryTextView;
 
     public ResourceInfoView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
