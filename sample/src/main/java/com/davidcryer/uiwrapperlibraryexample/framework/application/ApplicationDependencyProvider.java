@@ -1,7 +1,7 @@
 package com.davidcryer.uiwrapperlibraryexample.framework.application;
 
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperFactory;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModelFactory;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUiModelFactory;
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.exampledialog.ExampleDialogUiModelFactory;
 import com.davidcryer.uiwrapperlibraryexample.model.ResourceRepository;
 

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">UiWrapper Example</string>
 
+    <string name="view.example.button.show_example_dialog">Show example dialog</string>
     <string name="view.example.button.new_example_activity">Start new example activity</string>
     <string name="view.example.button.new_example_fragment">Start new example fragment</string>
 </resources>

@@ -1,15 +1,15 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel;
+package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example;
 
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUi;
+import com.davidc.uiwrapper.UiModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-class ExampleUiModelImpl implements ExampleUiModel {
+class ExampleUiModel implements UiModel<ExampleUi> {
     private final static String FORMAT_BUTTON_CLICK_COUNTER = "Button click count: %1$s";
     private final static String FORMAT_RESOURCE_LISTENERS = "Number of resource listeners: %s";
     private final static String FORMAT_LAST_RECOVERY = "State last recovered on: %s";
@@ -19,7 +19,7 @@ class ExampleUiModelImpl implements ExampleUiModel {
     private int resourceListenersCount;
     private int buttonClickCount;
 
-    ExampleUiModelImpl(long timeOfLastStateRecovery, int resourceListenersCount, int buttonClickCount) {
+    ExampleUiModel(long timeOfLastStateRecovery, int resourceListenersCount, int buttonClickCount) {
         this.timeOfLastStateRecovery = timeOfLastStateRecovery;
         this.resourceListenersCount = resourceListenersCount;
         this.buttonClickCount = buttonClickCount;
@@ -40,8 +40,7 @@ class ExampleUiModelImpl implements ExampleUiModel {
         }
     }
 
-    @Override
-    public void showResourceListenersCount(ExampleUi ui, int resourceListenersCount) {
+    void showResourceListenersCount(ExampleUi ui, int resourceListenersCount) {
         this.resourceListenersCount = resourceListenersCount;
         if (ui != null) {
             ui.showResourceListenersCountText(resourceListenersCountText(resourceListenersCount));
@@ -52,8 +51,7 @@ class ExampleUiModelImpl implements ExampleUiModel {
         return String.format(FORMAT_RESOURCE_LISTENERS, resourceListenersCount);
     }
 
-    @Override
-    public void incrementButtonClickCounter(ExampleUi ui) {
+    void incrementButtonClickCounter(ExampleUi ui) {
         if (ui != null) {
             ui.showButtonClickCountText(String.format(FORMAT_BUTTON_CLICK_COUNTER, ++buttonClickCount));
         }
@@ -71,21 +69,21 @@ class ExampleUiModelImpl implements ExampleUiModel {
         dest.writeInt(this.buttonClickCount);
     }
 
-    private ExampleUiModelImpl(Parcel in) {
+    private ExampleUiModel(Parcel in) {
         this.timeOfLastStateRecovery = in.readLong();
         this.resourceListenersCount = in.readInt();
         this.buttonClickCount = in.readInt();
     }
 
-    public static final Creator<ExampleUiModelImpl> CREATOR = new Creator<ExampleUiModelImpl>() {
+    public static final Creator<ExampleUiModel> CREATOR = new Creator<ExampleUiModel>() {
         @Override
-        public ExampleUiModelImpl createFromParcel(Parcel source) {
-            return new ExampleUiModelImpl(source);
+        public ExampleUiModel createFromParcel(Parcel source) {
+            return new ExampleUiModel(source);
         }
 
         @Override
-        public ExampleUiModelImpl[] newArray(int size) {
-            return new ExampleUiModelImpl[size];
+        public ExampleUiModel[] newArray(int size) {
+            return new ExampleUiModel[size];
         }
     };
 }

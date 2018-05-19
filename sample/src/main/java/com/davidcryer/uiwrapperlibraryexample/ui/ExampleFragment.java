@@ -18,9 +18,7 @@ import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.Examp
 
 public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, ExampleUi.Listener, UiWrapperFactory> {
     private ExampleFragmentNavigator navigator;
-    private TextView resourceListenersCountTextView;
-    private TextView timeOfLastStateRecoveryTextView;
-    private TextView buttonClickCounterTextView;
+    private FragmentResourceInfoView infoView;
 
     public static ExampleFragment newInstance() {
         return new ExampleFragment();
@@ -36,13 +34,24 @@ public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, Example
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_example, container, false);
-        resourceListenersCountTextView = view.findViewById(R.id.resourceListenersCount);
-        timeOfLastStateRecoveryTextView = view.findViewById(R.id.timeOfLastStateRecovery);
-        buttonClickCounterTextView = view.findViewById(R.id.buttonClickCounter);
+        infoView = view.findViewById(R.id.info);
+        view.findViewById(R.id.showExampleDialogButton).setOnClickListener(showExampleDialogButtonOnClickListener);
         view.findViewById(R.id.newExampleActivityButton).setOnClickListener(newExampleActivityButtonOnClickListener);
         view.findViewById(R.id.newExampleFragmentButton).setOnClickListener(newExampleFragmentButtonOnClickListener);
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedState) {
+        super.onViewCreated(view, savedState);
+    }
+
+    private final View.OnClickListener showExampleDialogButtonOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            listener().onClickShowExampleDialog(ui);
+        }
+    };
 
     private final View.OnClickListener newExampleActivityButtonOnClickListener = new View.OnClickListener() {
         @Override
@@ -79,17 +88,22 @@ public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, Example
     private final ExampleUi ui = new ExampleUi() {
         @Override
         public void showResourceListenersCountText(String text) {
-            resourceListenersCountTextView.setText(text);
+            infoView.setResourceListenersCountText(text);
         }
 
         @Override
         public void showTimeOfLastStateRecoveryText(String text) {
-            timeOfLastStateRecoveryTextView.setText(text);
+            infoView.setTimeOfLastStateRecoveryText(text);
         }
 
         @Override
         public void showButtonClickCountText(String text) {
-            buttonClickCounterTextView.setText(text);
+            infoView.setButtonClickCounterText(text);
+        }
+
+        @Override
+        public void showExampleDialog() {
+            navigator.showExampleDialog();
         }
 
         @Override

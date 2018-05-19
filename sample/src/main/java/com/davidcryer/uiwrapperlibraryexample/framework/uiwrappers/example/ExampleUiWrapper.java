@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.davidc.uiwrapper.UiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModel;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModelFactory;
 import com.davidcryer.uiwrapperlibraryexample.model.Resource;
 
 public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> {
@@ -46,6 +44,11 @@ public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, E
     @Override
     protected ExampleUi.Listener uiListener() {
         return new ExampleUi.Listener() {
+            @Override
+            public void onClickShowExampleDialog(ExampleUi ui) {
+                ui.showExampleDialog();
+            }
+
             @Override
             public void onClickNewExampleActivity(ExampleUi ui) {
                 ui.showNewExampleActivity();

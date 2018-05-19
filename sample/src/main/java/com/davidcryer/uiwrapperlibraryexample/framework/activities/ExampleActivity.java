@@ -7,11 +7,13 @@ import android.support.v7.app.ActionBar;
 import com.davidcryer.simpleactivities.SimpleAppBarActivity;
 import com.davidcryer.uiwrapperlibraryexample.androidhelpers.DrawableHelper;
 import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.ExampleFragmentNavigator;
+import com.davidcryer.uiwrapperlibraryexample.ui.ExampleDialogFragment;
 import com.davidcryer.uiwrapperlibraryexample.ui.ExampleFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
 
 public class ExampleActivity extends SimpleAppBarActivity implements ExampleFragmentNavigator {
     private final static String ARG_INTENT_SHOW_HOME_AS_BACK = "show home as back";
+    private final static String TAG_EXAMPLE_DIALOG = "example dialog";
 
     @Override
     protected void setupActionBar(@NonNull ActionBar actionBar) {
@@ -24,6 +26,13 @@ public class ExampleActivity extends SimpleAppBarActivity implements ExampleFrag
     @Override
     protected void addInitialFragment() {
         add(null, ExampleFragment::newInstance);
+    }
+
+    @Override
+    public void showExampleDialog() {
+        if (getSupportFragmentManager().findFragmentByTag(TAG_EXAMPLE_DIALOG) == null) {
+            new ExampleDialogFragment().show(getSupportFragmentManager(), TAG_EXAMPLE_DIALOG);
+        }
     }
 
     @Override

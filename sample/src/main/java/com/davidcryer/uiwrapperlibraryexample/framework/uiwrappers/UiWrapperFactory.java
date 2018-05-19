@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.davidc.uiwrapper.UiWrapperInitializer;
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.viewmodel.ExampleUiModelFactory;
+import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUiModelFactory;
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.exampledialog.ExampleDialogUiModelFactory;
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.exampledialog.ExampleDialogUiWrapper;
 import com.davidcryer.uiwrapperlibraryexample.model.ResourceRepository;
@@ -31,9 +31,9 @@ public class UiWrapperFactory {
 
     public ExampleDialogUiWrapper createExampleDialogUiWrapper(@Nullable final Bundle savedState) {
         return UiWrapperInitializer.from(savedState, () -> {
-            return ExampleDialogUiWrapper.newInstance(exampleDialogUiModelFactory);
+            return ExampleDialogUiWrapper.newInstance(resourceRepository.create(), exampleDialogUiModelFactory);
         }, nonNullSavedState -> {
-            return ExampleDialogUiWrapper.savedElseNewInstance(exampleDialogUiModelFactory, savedState);
+            return ExampleDialogUiWrapper.savedElseNewInstance(resourceRepository.create(), exampleDialogUiModelFactory, savedState);
         });
     }
 }
