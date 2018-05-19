@@ -9,6 +9,7 @@ import android.view.View;
 
 public abstract class UiDialogFragment<U, L> extends DialogFragment implements UiFragmentContract<U, L> {
     private final UiFragmentCore<U, L> core = new UiFragmentCore<>(this);
+    private boolean didCallOnViewCreated = false;
 
     @Override
     @CallSuper
@@ -18,10 +19,18 @@ public abstract class UiDialogFragment<U, L> extends DialogFragment implements U
     }
 
     @Override
-    @CallSuper
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedState) {
-        super.onViewCreated(view, savedState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         core.onViewCreated();
+        didCallOnViewCreated = true;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (!didCallOnViewCreated) {
+            core.onViewCreated();
+        }
     }
 
     @Override
@@ -49,6 +58,7 @@ public abstract class UiDialogFragment<U, L> extends DialogFragment implements U
     public void onDestroyView() {
         super.onDestroyView();
         core.onDestroyView();
+        didCallOnViewCreated = false;
     }
 
     @Override
