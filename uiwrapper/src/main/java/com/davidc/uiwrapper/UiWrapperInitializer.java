@@ -22,6 +22,6 @@ public final class UiWrapperInitializer {
     }
 
     public interface SavedWrapperProvider<T extends UiWrapper> {
-        T from(@NonNull Bundle savedState);
+        @Nullable T from(@NonNull Bundle savedState);
     }
 }
