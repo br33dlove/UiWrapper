@@ -38,12 +38,12 @@ public abstract class UiWrapper<U, L, M extends UiModel> {
         setUp(ui);
     }
 
-    abstract void setUp(@NonNull final U ui);
-
     @CallSuper
     protected void registerResources() {
         resourcesRegistered = true;
     }
+
+    abstract void setUp(@NonNull final U ui);
 
     @NonNull
     protected abstract L uiListener();
