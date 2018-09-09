@@ -16,11 +16,10 @@ package com.davidc.uiwrapper;
 
 import android.support.annotation.NonNull;
 
-final class ArgChecker {
+final class GateKeep {
     private final static String FORMAT_CLASS_VAR_NAME = "%1$s.%2$s";
 
-
-    private ArgChecker() {}
+    private GateKeep() {}
 
     static void notNull(final Object o, @NonNull final Class clazz, @NonNull final String varName) {
         if (o == null) {

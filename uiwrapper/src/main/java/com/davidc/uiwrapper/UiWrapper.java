@@ -26,7 +26,7 @@ public abstract class UiWrapper<U, L, M extends UiModel> {
     private U ui = null;
 
     protected UiWrapper(@NonNull final M uiModel) {
-        ArgChecker.notNull(uiModel, UiWrapper.class, "uiModel");
+        GateKeep.notNull(uiModel, UiWrapper.class, "uiModel");
         this.uiModel = uiModel;
     }
 

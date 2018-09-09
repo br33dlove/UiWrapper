@@ -25,7 +25,7 @@ class UiWrapperFactoryCore<U, L, F> {
     public final UiWrapper<U, L, ?> uiWrapper(@Nullable Bundle savedState) {
         //noinspection unchecked
         final F factory = (F) factoryProvider.getUiWrapperFactory();
-        ArgChecker.notNull(factory, UiWrapperFactoryCore.class, "factoryProvider.getUiWrapperFactory()");
+        GateKeep.notNull(factory, UiWrapperFactoryCore.class, "factoryProvider.getUiWrapperFactory()");
         return contract.uiWrapper(factory, savedState);
     }
 }

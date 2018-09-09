@@ -14,7 +14,7 @@ class UiFragmentCore<U, L> {
 
     public void onCreate(@Nullable Bundle savedState) {
         wrapper = contract.uiWrapper(savedState);
-        ArgChecker.notNull(wrapper, UiFragmentCore.class, "wrapper");
+        GateKeep.notNull(wrapper, UiFragmentCore.class, "wrapper");
     }
 
     public void onViewCreated() {
