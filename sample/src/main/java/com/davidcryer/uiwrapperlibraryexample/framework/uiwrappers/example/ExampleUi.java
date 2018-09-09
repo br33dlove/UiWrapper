@@ -1,9 +1,9 @@
 package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example;
 
 public interface ExampleUi {
-    void showTimeOfLastStateRecoveryText(final String text);
-    void showResourceListenersCountText(final String text);
-    void showButtonClickCountText(final String text);
+    void showTimeOfLastStateRecovery(final long time);
+    void showResourceListenersCount(final int count);
+    void showButtonClickCount(final int count);
     void showExampleDialog();
     void showNewExampleActivity();
     void showNewExampleFragment();

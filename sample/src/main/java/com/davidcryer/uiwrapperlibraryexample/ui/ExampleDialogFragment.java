@@ -13,7 +13,15 @@ import com.davidcryer.uiwrapperlibraryexample.R;
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperFactory;
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.exampledialog.ExampleDialogUi;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class ExampleDialogFragment extends UiWrapperFactoryDialogFragment<ExampleDialogUi, ExampleDialogUi.Listener, UiWrapperFactory> {
+    private final static String FORMAT_RESOURCE_LISTENERS = "Number of resource listeners: %s";
+    private final static String FORMAT_LAST_RECOVERY = "State last recovered on: %s";
+    private final static String NO_LAST_RECOVERY = "State not yet recovered";
+    private final static String SDF_LAST_RECOVERY = "EEE, d MMM yyyy HH:mm:ss";
     private ResourceInfoView resourceInfoView;
 
     @NonNull
@@ -45,13 +53,25 @@ public class ExampleDialogFragment extends UiWrapperFactoryDialogFragment<Exampl
 
     private final ExampleDialogUi ui = new ExampleDialogUi() {
         @Override
-        public void showTimeOfLastStateRecoveryText(String text) {
-            resourceInfoView.setTimeOfLastStateRecoveryText(text);
+        public void showTimeOfLastStateRecovery(long time) {
+            resourceInfoView.setTimeOfLastStateRecoveryText(timeOfLastStateRecoveryText(time));
         }
 
         @Override
-        public void showResourceListenersCountText(String text) {
-            resourceInfoView.setResourceListenersCountText(text);
+        public void showResourceListenersCount(int count) {
+            resourceInfoView.setResourceListenersCountText(resourceListenersCountText(count));
         }
     };
+
+    static String timeOfLastStateRecoveryText(final long timeOfLastStateRecovery) {
+        if (timeOfLastStateRecovery >= 0) {
+            return String.format(FORMAT_LAST_RECOVERY, new SimpleDateFormat(SDF_LAST_RECOVERY, Locale.getDefault()).format(new Date(timeOfLastStateRecovery)));
+        } else {
+            return NO_LAST_RECOVERY;
+        }
+    }
+
+    static String resourceListenersCountText(final int resourceListenersCount) {
+        return String.format(FORMAT_RESOURCE_LISTENERS, resourceListenersCount);
+    }
 }

@@ -35,6 +35,14 @@ public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, E
         resource.register(resourceListener);
     }
 
+    @Override
+    protected void setUp(@NonNull ExampleUi ui) {
+        final ExampleUiModel model = uiModel();
+        ui.showResourceListenersCount(model.getResourceListenersCount());
+        ui.showTimeOfLastStateRecovery(model.getTimeOfLastStateRecovery());
+        ui.showButtonClickCount(model.getButtonClickCount());
+    }
+
     @NonNull
     @Override
     protected ExampleUi.Listener uiListener() {

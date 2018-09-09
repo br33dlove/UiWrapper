@@ -43,7 +43,7 @@ public abstract class UiWrapper<U, L, M extends UiModel> {
         resourcesRegistered = true;
     }
 
-    abstract void setUp(@NonNull final U ui);
+    protected abstract void setUp(@NonNull final U ui);
 
     @NonNull
     protected abstract L uiListener();

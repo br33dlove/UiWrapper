@@ -40,6 +40,13 @@ public class ExampleDialogUiWrapper extends UiWrapper<ExampleDialogUi, ExampleDi
     }
 
     @Override
+    protected void setUp(@NonNull ExampleDialogUi ui) {
+        final ExampleDialogUiModel model = uiModel();
+        ui.showResourceListenersCount(model.getResourceListenersCount());
+        ui.showTimeOfLastStateRecovery(model.getTimeOfLastStateRecovery());
+    }
+
+    @Override
     protected void unregisterResources() {
         super.unregisterResources();
         resource.unregister(resourceListener);
