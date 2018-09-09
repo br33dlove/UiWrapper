@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example;
+package com.davidcryer.uiwrapperlibraryexample.example;
 
 import android.os.Parcel;
 

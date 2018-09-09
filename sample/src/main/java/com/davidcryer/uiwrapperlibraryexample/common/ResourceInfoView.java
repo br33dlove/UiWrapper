@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.ui;
+package com.davidcryer.uiwrapperlibraryexample.common;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;

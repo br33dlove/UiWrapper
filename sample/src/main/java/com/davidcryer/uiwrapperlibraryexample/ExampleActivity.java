@@ -1,15 +1,14 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.activities;
+package com.davidcryer.uiwrapperlibraryexample;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 
 import com.davidcryer.simpleactivities.SimpleAppBarActivity;
-import com.davidcryer.uiwrapperlibraryexample.androidhelpers.DrawableHelper;
-import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.ExampleFragmentNavigator;
-import com.davidcryer.uiwrapperlibraryexample.ui.ExampleDialogFragment;
-import com.davidcryer.uiwrapperlibraryexample.ui.ExampleFragment;
-import com.davidcryer.uiwrapperlibraryexample.R;
+import com.davidcryer.uiwrapperlibraryexample.utils.DrawableHelper;
+import com.davidcryer.uiwrapperlibraryexample.example.ExampleFragmentNavigator;
+import com.davidcryer.uiwrapperlibraryexample.exampledialog.ExampleDialogFragment;
+import com.davidcryer.uiwrapperlibraryexample.example.ExampleFragment;
 
 public class ExampleActivity extends SimpleAppBarActivity implements ExampleFragmentNavigator {
     private final static String ARG_INTENT_SHOW_HOME_AS_BACK = "show home as back";

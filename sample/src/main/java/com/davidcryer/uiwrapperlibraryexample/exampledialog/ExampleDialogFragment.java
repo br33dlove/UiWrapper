@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.ui;
+package com.davidcryer.uiwrapperlibraryexample.exampledialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,8 +10,8 @@ import android.support.v7.app.AlertDialog;
 import com.davidc.uiwrapper.UiWrapper;
 import com.davidc.uiwrapper.UiWrapperFactoryDialogFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperFactory;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.exampledialog.ExampleDialogUi;
+import com.davidcryer.uiwrapperlibraryexample.UiWrapperFactory;
+import com.davidcryer.uiwrapperlibraryexample.common.ResourceInfoView;
 
 public class ExampleDialogFragment extends UiWrapperFactoryDialogFragment<ExampleDialogUi, ExampleDialogUi.Listener, UiWrapperFactory> {
     private ResourceInfoView resourceInfoView;

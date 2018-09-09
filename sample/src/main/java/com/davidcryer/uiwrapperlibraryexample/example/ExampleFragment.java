@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.ui;
+package com.davidcryer.uiwrapperlibraryexample.example;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 import com.davidc.uiwrapper.UiWrapper;
 import com.davidc.uiwrapper.UiWrapperFactoryFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
-import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.ExampleFragmentNavigator;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperFactory;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUi;
+import com.davidcryer.uiwrapperlibraryexample.UiWrapperFactory;
+import com.davidcryer.uiwrapperlibraryexample.common.FragmentResourceInfoView;
 
 public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, ExampleUi.Listener, UiWrapperFactory> {
     private ExampleFragmentNavigator navigator;

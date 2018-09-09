@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.model;
+package com.davidcryer.uiwrapperlibraryexample.common;
 
 import java.util.HashSet;
 import java.util.Set;

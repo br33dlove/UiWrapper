@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example;
+package com.davidcryer.uiwrapperlibraryexample.example;
 
 public interface ExampleUi {
     void showTimeOfLastStateRecovery(final long time);

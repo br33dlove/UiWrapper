@@ -1,10 +1,9 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.application;
+package com.davidcryer.uiwrapperlibraryexample;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
 
 import com.davidc.uiwrapper.UiWrapperFactoryProvider;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperFactory;
 
 public class ExampleApplication extends Application implements UiWrapperFactoryProvider<UiWrapperFactory> {
     private UiWrapperFactory uiWrapperFactory;

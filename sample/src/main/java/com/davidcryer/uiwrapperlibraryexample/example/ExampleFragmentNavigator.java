@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation;
+package com.davidcryer.uiwrapperlibraryexample.example;
 
 public interface ExampleFragmentNavigator {
     void showExampleDialog();

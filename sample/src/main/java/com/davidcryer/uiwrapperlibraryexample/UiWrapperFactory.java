@@ -1,14 +1,14 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers;
+package com.davidcryer.uiwrapperlibraryexample;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.davidc.uiwrapper.UiWrapperInitializer;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUiModelFactory;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.exampledialog.ExampleDialogUiModelFactory;
-import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.exampledialog.ExampleDialogUiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.model.ResourceRepository;
+import com.davidcryer.uiwrapperlibraryexample.example.ExampleUiWrapper;
+import com.davidcryer.uiwrapperlibraryexample.example.ExampleUiModelFactory;
+import com.davidcryer.uiwrapperlibraryexample.exampledialog.ExampleDialogUiModelFactory;
+import com.davidcryer.uiwrapperlibraryexample.exampledialog.ExampleDialogUiWrapper;
+import com.davidcryer.uiwrapperlibraryexample.common.ResourceRepository;
 
 public class UiWrapperFactory {
     private final ResourceRepository resourceRepository;

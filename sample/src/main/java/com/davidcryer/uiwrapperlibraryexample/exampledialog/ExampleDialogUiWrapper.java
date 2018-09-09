@@ -1,10 +1,10 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.exampledialog;
+package com.davidcryer.uiwrapperlibraryexample.exampledialog;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.davidc.uiwrapper.UiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.model.Resource;
+import com.davidcryer.uiwrapperlibraryexample.common.Resource;
 
 public class ExampleDialogUiWrapper extends UiWrapper<ExampleDialogUi, ExampleDialogUi.Listener, ExampleDialogUiModel> {
     private final Resource resource;

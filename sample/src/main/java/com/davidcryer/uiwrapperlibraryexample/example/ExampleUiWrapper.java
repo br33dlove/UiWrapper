@@ -1,10 +1,10 @@
-package com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example;
+package com.davidcryer.uiwrapperlibraryexample.example;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.davidc.uiwrapper.UiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.model.Resource;
+import com.davidcryer.uiwrapperlibraryexample.common.Resource;
 
 public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> {
     private final Resource resource;

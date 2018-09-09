@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.model;
+package com.davidcryer.uiwrapperlibraryexample.common;
 
 public class ResourceRepository {
     private Resource resource;

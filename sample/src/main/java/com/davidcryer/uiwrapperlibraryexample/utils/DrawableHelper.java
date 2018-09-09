@@ -1,4 +1,4 @@
-package com.davidcryer.uiwrapperlibraryexample.androidhelpers;
+package com.davidcryer.uiwrapperlibraryexample.utils;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
