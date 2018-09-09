@@ -19,7 +19,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public abstract class UiWrapper<U, L, M extends UiModel<U>> {
+public abstract class UiWrapper<U, L, M extends UiModel> {
     private final static String BUNDLE_ARG_UI_MODEL = "ui model";
     private final M uiModel;
     private boolean resourcesRegistered = false;
@@ -35,8 +35,10 @@ public abstract class UiWrapper<U, L, M extends UiModel<U>> {
             registerResources();
         }
         this.ui = ui;
-        uiModel.onto(ui);
+        setUp(ui);
     }
+
+    abstract void setUp(@NonNull final U ui);
 
     @CallSuper
     protected void registerResources() {
