@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.davidcryer.uiwrapperlibraryexample.R;
 
 public class FragmentResourceInfoView extends ResourceInfoView {
+    private final static String FORMAT_BUTTON_CLICK_COUNTER = "Button click count: %1$s";
     private final TextView buttonClickCounterTextView;
 
     public FragmentResourceInfoView(Context context, @Nullable AttributeSet attrs) {
@@ -20,7 +21,7 @@ public class FragmentResourceInfoView extends ResourceInfoView {
         return R.layout.fragment_resource_info_view;
     }
 
-    public void setButtonClickCounterText(final String text) {
-        buttonClickCounterTextView.setText(text);
+    public void setButtonClickCounter(final int count) {
+        buttonClickCounterTextView.setText(String.format(FORMAT_BUTTON_CLICK_COUNTER, count));
     }
 }

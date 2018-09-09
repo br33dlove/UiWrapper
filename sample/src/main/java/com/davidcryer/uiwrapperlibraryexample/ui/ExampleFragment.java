@@ -15,16 +15,7 @@ import com.davidcryer.uiwrapperlibraryexample.framework.activities.navigation.Ex
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.UiWrapperFactory;
 import com.davidcryer.uiwrapperlibraryexample.framework.uiwrappers.example.ExampleUi;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, ExampleUi.Listener, UiWrapperFactory> {
-    private final static String FORMAT_BUTTON_CLICK_COUNTER = "Button click count: %1$s";
-    private final static String FORMAT_RESOURCE_LISTENERS = "Number of resource listeners: %s";
-    private final static String FORMAT_LAST_RECOVERY = "State last recovered on: %s";
-    private final static String NO_LAST_RECOVERY = "State not yet recovered";
-    private final static String SDF_LAST_RECOVERY = "EEE, d MMM yyyy HH:mm:ss";
     private ExampleFragmentNavigator navigator;
     private FragmentResourceInfoView infoView;
 
@@ -91,17 +82,17 @@ public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, Example
     private final ExampleUi ui = new ExampleUi() {
         @Override
         public void showResourceListenersCount(int count) {
-            infoView.setResourceListenersCountText(resourceListenersCountText(count));
+            infoView.setResourceListenersCount(count);
         }
 
         @Override
         public void showTimeOfLastStateRecovery(long time) {
-            infoView.setTimeOfLastStateRecoveryText(timeOfLastStateRecoveryText(time));
+            infoView.setTimeOfLastStateRecovery(time);
         }
 
         @Override
         public void showButtonClickCount(int count) {
-            infoView.setButtonClickCounterText(String.format(FORMAT_BUTTON_CLICK_COUNTER, count));
+            infoView.setButtonClickCounter(count);
         }
 
         @Override
@@ -123,16 +114,4 @@ public class ExampleFragment extends UiWrapperFactoryFragment<ExampleUi, Example
             }
         }
     };
-
-    static String timeOfLastStateRecoveryText(final long timeOfLastStateRecovery) {
-        if (timeOfLastStateRecovery >= 0) {
-            return String.format(FORMAT_LAST_RECOVERY, new SimpleDateFormat(SDF_LAST_RECOVERY, Locale.getDefault()).format(new Date(timeOfLastStateRecovery)));
-        } else {
-            return NO_LAST_RECOVERY;
-        }
-    }
-
-    static String resourceListenersCountText(final int resourceListenersCount) {
-        return String.format(FORMAT_RESOURCE_LISTENERS, resourceListenersCount);
-    }
 }
