@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 
 import com.davidcryer.simpleactivities.SimpleAppBarActivity;
-import com.davidcryer.uiwrapperlibraryexample.utils.DrawableHelper;
+import com.davidcryer.uiwrapperlibraryexample.common.DrawableHelper;
 import com.davidcryer.uiwrapperlibraryexample.example.ExampleFragmentNavigator;
 import com.davidcryer.uiwrapperlibraryexample.exampledialog.ExampleDialogFragment;
 import com.davidcryer.uiwrapperlibraryexample.example.ExampleFragment;
