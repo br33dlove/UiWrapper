@@ -2,6 +2,7 @@ package com.davidcryer.uiwrapperlibraryexample.exampledialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,10 +12,9 @@ import com.davidc.uiwrapper.UiWrapper;
 import com.davidc.uiwrapper.UiWrapperFactoryDialogFragment;
 import com.davidcryer.uiwrapperlibraryexample.R;
 import com.davidcryer.uiwrapperlibraryexample.UiWrapperFactory;
-import com.davidcryer.uiwrapperlibraryexample.common.ResourceInfoView;
 
 public class ExampleDialogFragment extends UiWrapperFactoryDialogFragment<ExampleDialogUi, ExampleDialogUi.Listener, UiWrapperFactory> {
-    private ResourceInfoView resourceInfoView;
+    private CreateResourceView createResourceView;
 
     @NonNull
     @Override
@@ -25,10 +25,19 @@ public class ExampleDialogFragment extends UiWrapperFactoryDialogFragment<Exampl
         }
         final AlertDialog dialog = new AlertDialog.Builder(context)
                 .setView(R.layout.fragment_dialog_example_info)
+                .setPositiveButton("Create", null)
                 .setNeutralButton("Dismiss", null)
-                .show();
-        resourceInfoView = dialog.findViewById(R.id.info);
+                .create();
+        createResourceView = dialog.findViewById(R.id.createResource);
+        dialog.setOnShowListener(d -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(l -> onClickSubmit()));
+        dialog.show();
         return dialog;
+    }
+
+    private void onClickSubmit() {
+        if (createResourceView != null) {
+            listener().onClickCreateResource(ui(), createResourceView.value());
+        }
     }
 
     @NonNull
@@ -45,13 +54,13 @@ public class ExampleDialogFragment extends UiWrapperFactoryDialogFragment<Exampl
 
     private final ExampleDialogUi ui = new ExampleDialogUi() {
         @Override
-        public void showTimeOfLastStateRecovery(long time) {
-            resourceInfoView.setTimeOfLastStateRecovery(time);
+        public void dismiss() {
+            ExampleDialogFragment.this.dismiss();
         }
 
         @Override
-        public void showResourceListenersCount(int count) {
-            resourceInfoView.setResourceListenersCount(count);
+        public void error(String e) {
+            createResourceView.error(e);
         }
     };
 }

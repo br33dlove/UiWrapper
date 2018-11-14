@@ -1,10 +1,12 @@
 package com.davidcryer.uiwrapperlibraryexample.exampledialog;
 
+import com.davidcryer.uiwrapperlibraryexample.common.ResourceSubmission;
+
 public interface ExampleDialogUi {
-    void showTimeOfLastStateRecovery(final long time);
-    void showResourceListenersCount(final int count);
+    void dismiss();
+    void error(String e);
 
     interface Listener {
-
+        void onClickCreateResource(ExampleDialogUi ui, ResourceSubmission submission);
     }
 }

@@ -1,24 +1,32 @@
-package com.davidcryer.uiwrapperlibraryexample.exampledialog;
+package com.davidcryer.uiwrapperlibraryexample.examplelistitem;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.davidc.uiwrapper.UiModel;
 
-public class ExampleDialogUiModel implements UiModel<ExampleDialogUiModel.SavedState> {
+public class ExampleListItemUiModel implements UiModel<ExampleListItemUiModel.SavedState> {
+    private final String value;
 
-    ExampleDialogUiModel() {}
+    public ExampleListItemUiModel(String value) {
+        this.value = value;
+    }
 
-    ExampleDialogUiModel(final SavedState savedState) {}
+    ExampleListItemUiModel(final SavedState savedState) {
+        this.value = savedState.value;
+    }
 
     @Override
     public SavedState getParcelable() {
-        return new SavedState();
+        return new SavedState(value);
     }
 
-    static class SavedState implements Parcelable {
+    public static class SavedState implements Parcelable {
+        private final String value;
 
-        private SavedState() {}
+        public SavedState(String value) {
+            this.value = value;
+        }
 
         @Override
         public int describeContents() {
@@ -27,10 +35,12 @@ public class ExampleDialogUiModel implements UiModel<ExampleDialogUiModel.SavedS
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-
+            dest.writeString(this.value);
         }
 
-        private SavedState(Parcel in) {}
+        protected SavedState(Parcel in) {
+            this.value = in.readString();
+        }
 
         public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
             @Override

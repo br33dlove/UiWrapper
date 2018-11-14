@@ -15,6 +15,7 @@
 package com.davidc.uiwrapper;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -53,13 +54,17 @@ public abstract class UiWrapper<U, L, M extends UiModel> {
     }
 
     final void saveState(@NonNull final Bundle outState) {
-        outState.putParcelable(BUNDLE_ARG_UI_MODEL, uiModel);
+        outState.putParcelable(BUNDLE_ARG_UI_MODEL, uiModel.getParcelable());
     }
 
     @SuppressWarnings("unused")
     @Nullable
-    protected static <M extends UiModel> M savedUiModel(final Bundle savedState) {
-        return savedState.getParcelable(BUNDLE_ARG_UI_MODEL);
+    protected static <P extends Parcelable, M extends UiModel<P>> M savedUiModel(
+            final Bundle savedState,
+            final UiModelFactory<P, M> uiModelFactory
+    ) {
+        final P p = savedState.getParcelable(BUNDLE_ARG_UI_MODEL);
+        return p == null ? null : uiModelFactory.create(p);
     }
 
     @CallSuper

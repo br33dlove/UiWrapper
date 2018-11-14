@@ -1,35 +1,17 @@
 package com.davidcryer.uiwrapperlibraryexample.common;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Resource {
-    private final Set<Listener> listeners = new HashSet<>();
+    private String value;
 
-    public void register(final Listener listener) {
-        if (listener == null) {
-            return;
-        }
-        listeners.add(listener);
-        notifyListenersOfListenerCountChange();
+    Resource(String value) {
+        this.value = value;
     }
 
-    public void unregister(final Listener listener) {
-        if (listener == null) {
-            return;
-        }
-        listeners.remove(listener);
-        notifyListenersOfListenerCountChange();
+    String value() {
+        return value;
     }
 
-    private void notifyListenersOfListenerCountChange() {
-        final int listenerCount = listeners.size();
-        for (final Listener listener : listeners) {
-            listener.listenerCount(listenerCount);
-        }
-    }
-
-    public interface Listener {
-        void listenerCount(final int count);
+    void value(final String value) {
+        this.value = value;
     }
 }

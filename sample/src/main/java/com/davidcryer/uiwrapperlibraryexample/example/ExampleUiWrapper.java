@@ -2,37 +2,32 @@ package com.davidcryer.uiwrapperlibraryexample.example;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.davidc.uiwrapper.UiWrapper;
-import com.davidcryer.uiwrapperlibraryexample.common.Resource;
+import com.davidcryer.uiwrapperlibraryexample.common.ResourceManager;
 
 public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, ExampleUiModel> {
-    private final Resource resource;
+    private final ResourceManager resourceManager;
 
-    private ExampleUiWrapper(Resource resource, ExampleUiModel uiModel) {
+    private ExampleUiWrapper(ResourceManager resourceManager, ExampleUiModel uiModel) {
         super(uiModel);
-        this.resource = resource;
+        this.resourceManager = resourceManager;
     }
 
-    public static ExampleUiWrapper newInstance(final Resource resource, final ExampleUiModelFactory uiModelFactory) {
-        return new ExampleUiWrapper(resource, uiModelFactory.create());
+    @NonNull
+    public static ExampleUiWrapper newInstance(final ResourceManager resourceManager, final ExampleUiModelFactory uiModelFactory) {
+        return new ExampleUiWrapper(resourceManager, uiModelFactory.create());
     }
 
-    public static ExampleUiWrapper savedElseNewInstance(
-            final Resource resource,
+    @Nullable
+    public static ExampleUiWrapper savedInstance(
+            final ResourceManager resourceManager,
             final ExampleUiModelFactory uiModelFactory,
             final Bundle savedState
     ) {
-        final ExampleUiModel uiModel = savedUiModel(savedState);
-        return uiModel == null ? newInstance(resource, uiModelFactory) : new ExampleUiWrapper(resource, uiModel);
-    }
-
-    private final Resource.Listener resourceListener = count -> uiModel().showResourceListenersCount(ui(), count);
-
-    @Override
-    protected void registerResources() {
-        super.registerResources();
-        resource.register(resourceListener);
+        final ExampleUiModel uiModel = savedUiModel(savedState, uiModelFactory);
+        return uiModel == null ? null : new ExampleUiWrapper(resourceManager, uiModel);
     }
 
     @Override
@@ -64,11 +59,5 @@ public class ExampleUiWrapper extends UiWrapper<ExampleUi, ExampleUi.Listener, E
                 uiModel().incrementButtonClickCounter(ui);
             }
         };
-    }
-
-    @Override
-    protected void unregisterResources() {
-        super.unregisterResources();
-        resource.unregister(resourceListener);
     }
 }

@@ -16,4 +16,6 @@ package com.davidc.uiwrapper;
 
 import android.os.Parcelable;
 
-public interface UiModel extends Parcelable {}
+public interface UiModel<P extends Parcelable> {
+    P getParcelable();
+}

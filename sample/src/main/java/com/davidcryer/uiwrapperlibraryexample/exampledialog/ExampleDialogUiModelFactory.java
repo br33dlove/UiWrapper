@@ -1,10 +1,18 @@
 package com.davidcryer.uiwrapperlibraryexample.exampledialog;
 
-public class ExampleDialogUiModelFactory {
-    private final static long DEFAULT_TIME_OF_LAST_STATE_RECOVERY = -1;
-    private final static int DEFAULT_RESOURCE_LISTENERS_COUNT = 0;
+import android.support.annotation.NonNull;
+
+import com.davidc.uiwrapper.UiModelFactory;
+
+public class ExampleDialogUiModelFactory implements UiModelFactory<ExampleDialogUiModel.SavedState, ExampleDialogUiModel> {
 
     public ExampleDialogUiModel create() {
-        return new ExampleDialogUiModel(DEFAULT_TIME_OF_LAST_STATE_RECOVERY, DEFAULT_RESOURCE_LISTENERS_COUNT);
+        return new ExampleDialogUiModel();
+    }
+
+    @NonNull
+    @Override
+    public ExampleDialogUiModel create(@NonNull ExampleDialogUiModel.SavedState parcelable) {
+        return new ExampleDialogUiModel(parcelable);
     }
 }

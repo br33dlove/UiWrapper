@@ -29,7 +29,7 @@ public class ResourceInfoView extends LinearLayout {
     }
 
     @LayoutRes int getLayoutRes() {
-        return R.layout.resource_info_view;
+        return R.layout.view_resource_info;
     }
 
     public void setResourceListenersCount(final int count) {
